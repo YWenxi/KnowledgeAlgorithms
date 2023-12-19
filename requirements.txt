@@ -1,8 +1,10 @@
-torch
+torch~=2.1.1
 torch_geometric
-neo4j
+neo4j~=5.15.0
 sentence_transformers
-pandas
-rdflib
-pyyaml
-bidict
+pandas~=2.1.4
+rdflib~=7.0.0
+pyyaml~=6.0.1
+bidict~=0.22.1
+setuptools~=68.2.0
+lightgbm~=4.1.0
