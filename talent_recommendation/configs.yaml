@@ -1,0 +1,4 @@
+neo4j:
+  url: 'neo4j+s://5afd5500.databases.neo4j.io'
+  user: 'neo4j'
+  password: 'JDs9Ns8a1eP4Tf4iACTuudysX9E3Vy1AqUYkh0ex56w'

@@ -1,0 +1,8 @@
+torch
+torch_geometric
+neo4j
+sentence_transformers
+pandas
+rdflib
+pyyaml
+bidict

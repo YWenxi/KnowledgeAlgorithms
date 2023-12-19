@@ -1,0 +1,4 @@
+torch
+torch_geometric
+sentence_transformers
+rdflib
