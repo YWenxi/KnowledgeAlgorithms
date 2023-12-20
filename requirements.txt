@@ -1,4 +1,4 @@
-torch~=2.1.1
+torch
 torch_geometric
 neo4j~=5.15.0
 sentence_transformers

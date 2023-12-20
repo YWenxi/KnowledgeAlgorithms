@@ -172,126 +172,166 @@ class BipartiteRecSys(knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorith
         pass
 
 
-def similarity_recommend(result=None, configs: Union[str, dict] = None, encoding_model: str = None):
-    if isinstance(configs, str):
+def load_configs(configs: Union[dict, str], check_keys: list = None):
+    """Load the configuration.
+
+    :param configs: Either a dict or a yaml configuration file.
+    :type configs: Union[dict, str]
+    :param check_keys: check if the config contains the keys in the checklist
+    :type check_keys: list[str]
+    :return: configuration
+    :rtype: dict
+    """
+    if not isinstance(configs, dict):
         with open(configs, "r") as f:
             configs = yaml.safe_load(f)
+    
+    # check if the configuration contains needed keys
+    if check_keys is not None:
+        for key in check_keys:
+            assert configs[key]
+    return configs
 
-    assert configs["neo4j"]
 
+def rec_sys_train(configs: Union[dict, str], encoding_model: str = None, device=None):
+    
+    # load configs
+    configs = load_configs(configs, check_keys=["neo4j"])
+    
     # check cuda
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(device)
-
+    if device is None:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        print(f"Using {device}")
+    
     # connect to neo4j
-    db = Neo4jAPI(configs["neo4j"]["uri"], configs["neo4j"]["user"], configs["neo4j"]["password"])
-
+    db = Neo4jAPI(configs["neo4j"]["url"], configs["neo4j"]["user"], configs["neo4j"]["password"])
+    
     # load a pretrained-encoder from huggingface
-    sentence_encoder = SequenceEncoder(model_name=encoding_model)
-
+    if encoding_model is not None:    
+        sentence_encoder = SequenceEncoder(model_name=encoding_model)
+    
     # query the database
     # 1. person
     person_query = """
-        match (p:person) 
+        match (e:employee) 
         return 
-            p.name as personName, 
-            properties(p) as description
+            e.name as employeeName, 
+            e.enc as enc
         """
     person_x, person_mapping = db.load_node(
-        person_query, index_col='personName',
-        encoders={"description": sentence_encoder}
+        person_query, index_col='employeeName',
     )
-
+    
     # 2. projects
     project_query = """
         match (p:project) 
         return 
             p.name as projectName, 
-            properties(p) as description
+            p.enc as enc
         """
     project_x, project_mapping = db.load_node(
         project_query, index_col='projectName',
-        encoders={"description": sentence_encoder}
     )
 
     # 3. relation
     relation_query = """
-        MATCH (head:person)-[r]->(tail:project) 
-        RETURN head.name as personName, r.name as rname, tail.name as projectName
+        MATCH (head:employee)-[r]->(tail:project) 
+        RETURN head.name as employeeName, r.name as rname, tail.name as projectName
         """
     edge_index, edge_label = db.load_edge(
         relation_query,
-        src_index_col='personName',
+        src_index_col='employeeName',
         src_mapping=person_mapping,
         dst_index_col='projectName',
         dst_mapping=project_mapping,
-        encoders={"rname": sentence_encoder}
+        # encoders={"rname": sentence_encoder}
     )
+    
 
+def similarity_recommend(input_request: str, configs: Union[str, dict]):
+    
+    # load configs
+    configs = load_configs(configs, check_keys=["neo4j"])
+    
+    # check cuda
+    if device is None:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        print(f"Using {device}")
+    
+    # connect to neo4j
+    db = Neo4jAPI(configs["neo4j"]["url"], configs["neo4j"]["user"], configs["neo4j"]["password"])
+    
+    # transfer input request node to graph
+    
+    # compute similarites
+    
+    pass
 
 
 
 if __name__ == "__main__":
-    # load configuration
-    with open("configs.yaml", "r") as f:
-        configs = yaml.safe_load(f)
+    
+    rec_sys_train("./configs.yaml", encoding_model="../models/sbert-base-chinese-nli")
 
-    # check cuda
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(device)
+    # with open("configs.yaml", "r") as f:
+    #     configs = yaml.safe_load(f)
 
-    # load a pretrained-encoder from huggingface
-    sentence_encoder = SequenceEncoder()
+    # # check cuda
+    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # print(device)
 
-    # connect to neo4j
-    db = Neo4jAPI(configs["neo4j"]["uri"], configs["neo4j"]["user"], configs["neo4j"]["password"])
+    # # load a pretrained-encoder from huggingface
+    # sentence_encoder = SequenceEncoder()
 
-    # query the database
-    # 1. person
-    person_query = """
-    match (p:Person) 
-    return 
-        p.name as personName, 
-        properties(p) as description
-    """
-    person_x, person_mapping = db.load_node(
-        person_query, index_col='personName',
-        encoders={"description": sentence_encoder}
-    )
+    # # connect to neo4j
+    # db = Neo4jAPI(configs["neo4j"]["uri"], configs["neo4j"]["user"], configs["neo4j"]["password"])
 
-    # 2. projects
-    project_query = """
-    match (p:Project) 
-    return 
-        p.name as projectName, 
-        properties(p) as description
-    """
-    project_x, project_mapping = db.load_node(
-        project_query, index_col='projectName',
-        encoders={"description": sentence_encoder}
-    )
+    # # query the database
+    # # 1. person
+    # person_query = """
+    # match (p:Person) 
+    # return 
+    #     p.name as personName, 
+    #     properties(p) as description
+    # """
+    # person_x, person_mapping = db.load_node(
+    #     person_query, index_col='personName',
+    #     encoders={"description": sentence_encoder}
+    # )
 
-    # 3. relation
-    relation_query = """
-    MATCH (head:Person)-[r]->(tail:Project) 
-    RETURN head.name as personName, r.name as rname, tail.name as projectName
-    """
-    edge_index, edge_label = db.load_edge(
-        relation_query,
-        src_index_col='personName',
-        src_mapping=person_mapping,
-        dst_index_col='projectName',
-        dst_mapping=project_mapping,
-        encoders={"rname": sentence_encoder}
-    )
+    # # 2. projects
+    # project_query = """
+    # match (p:Project) 
+    # return 
+    #     p.name as projectName, 
+    #     properties(p) as description
+    # """
+    # project_x, project_mapping = db.load_node(
+    #     project_query, index_col='projectName',
+    #     encoders={"description": sentence_encoder}
+    # )
 
-    data = HeteroData()
-    # Add user node features for message passing:
-    data['person'].x = person_x
-    # Add movie node features
-    data['project'].x = project_x
-    # Add ratings between users and movies
-    data['person', 'workedAs', 'project'].edge_index = edge_index
-    data['person', 'workedAs', 'project'].edge_label = edge_label
-    # data = ToUndirected()(data)
-    data.to(device, non_blocking=True)
+    # # 3. relation
+    # relation_query = """
+    # MATCH (head:Person)-[r]->(tail:Project) 
+    # RETURN head.name as personName, r.name as rname, tail.name as projectName
+    # """
+    # edge_index, edge_label = db.load_edge(
+    #     relation_query,
+    #     src_index_col='personName',
+    #     src_mapping=person_mapping,
+    #     dst_index_col='projectName',
+    #     dst_mapping=project_mapping,
+    #     encoders={"rname": sentence_encoder}
+    # )
+
+    # data = HeteroData()
+    # # Add user node features for message passing:
+    # data['person'].x = person_x
+    # # Add movie node features
+    # data['project'].x = project_x
+    # # Add ratings between users and movies
+    # data['person', 'workedAs', 'project'].edge_index = edge_index
+    # data['person', 'workedAs', 'project'].edge_label = edge_label
+    # # data = ToUndirected()(data)
+    # data.to(device, non_blocking=True)
