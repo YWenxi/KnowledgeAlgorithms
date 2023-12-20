@@ -211,6 +211,7 @@ def rec_sys_train(configs: Union[dict, str], encoding_model: str = None, device=
         sentence_encoder = SequenceEncoder(model_name=encoding_model)
     
     # query the database
+    print("query the database ...")
     # 1. person
     person_query = """
         match (e:employee) 
@@ -247,26 +248,31 @@ def rec_sys_train(configs: Union[dict, str], encoding_model: str = None, device=
         # encoders={"rname": sentence_encoder}
     )
     
+    print(person_x.shape, project_x.shape)
 
-def similarity_recommend(input_request: str, configs: Union[str, dict]):
-    
-    # load configs
-    configs = load_configs(configs, check_keys=["neo4j"])
-    
-    # check cuda
-    if device is None:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print(f"Using {device}")
+
+def json_to_graph():
+    pass
+
+
+def similarity_compute(input_request: str, configs: Union[str, dict], topk=3):
+    # convert input_request (json) to graph data
     
     # connect to neo4j
     db = Neo4jAPI(configs["neo4j"]["url"], configs["neo4j"]["user"], configs["neo4j"]["password"])
     
-    # transfer input request node to graph
-    
-    # compute similarites
-    
-    pass
-
+    # get the output people
+    query = f"""
+        MATCH (e:employee)-[:hasTechStack]-(t:techStack)
+        RETURN e.name AS `工号`, 
+            e.`最高学历` AS `学历`, 
+            e.`首次工作时间` AS `首次工作时间`,
+            date().year - date(e.`出生日期`).year AS `年龄`,
+            COLLECT(t.name) AS `技术栈`
+        LIMIT {topk}
+    """
+    df = db.fetch_data(query)
+    return df 
 
 
 if __name__ == "__main__":
