@@ -256,6 +256,9 @@ def json_to_graph():
 
 
 def similarity_compute(input_request: str, configs: Union[str, dict], topk=3):
+    # load configs
+    configs = load_configs(configs, check_keys=["neo4j"])
+
     # convert input_request (json) to graph data
     
     # connect to neo4j
