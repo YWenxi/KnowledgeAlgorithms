@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>talent_recommendation package &mdash; RecSysAlgo 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="tutorials.html" />
+    <link rel="prev" title="knowledge_algorithms.language_models package" href="knowledge_algorithms.language_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RecSysAlgo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">KnowledgeAlgorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.html">knowledge_algorithms package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">talent_recommendation package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-talent_recommendation.BipartiteRecSys">talent_recommendation.BipartiteRecSys module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN"><code class="docutils literal notranslate"><span class="pre">HeteroGNN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.add_new_position_node"><code class="docutils literal notranslate"><span class="pre">add_new_position_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.generate_negative_samples"><code class="docutils literal notranslate"><span class="pre">generate_negative_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.get_hetero_conv_layer"><code class="docutils literal notranslate"><span class="pre">get_hetero_conv_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.json_to_feature_vector"><code class="docutils literal notranslate"><span class="pre">json_to_feature_vector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.load_configs"><code class="docutils literal notranslate"><span class="pre">load_configs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.load_dataset"><code class="docutils literal notranslate"><span class="pre">load_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.load_model"><code class="docutils literal notranslate"><span class="pre">load_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.rec_sys_train"><code class="docutils literal notranslate"><span class="pre">rec_sys_train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.recommend"><code class="docutils literal notranslate"><span class="pre">recommend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.save_configs"><code class="docutils literal notranslate"><span class="pre">save_configs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.save_dataset"><code class="docutils literal notranslate"><span class="pre">save_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.save_model"><code class="docutils literal notranslate"><span class="pre">save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.score_and_rank_employees"><code class="docutils literal notranslate"><span class="pre">score_and_rank_employees()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.similarity_compute"><code class="docutils literal notranslate"><span class="pre">similarity_compute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.transform_hetero_data_for_rec_sys"><code class="docutils literal notranslate"><span class="pre">transform_hetero_data_for_rec_sys()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-talent_recommendation.metrics">talent_recommendation.metrics module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.metrics.compute_auc"><code class="docutils literal notranslate"><span class="pre">compute_auc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.metrics.compute_precision_recall_f1"><code class="docutils literal notranslate"><span class="pre">compute_precision_recall_f1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talent_recommendation.metrics.hit_at_k"><code class="docutils literal notranslate"><span class="pre">hit_at_k()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-talent_recommendation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RecSysAlgo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">KnowledgeAlgorithms</a></li>
+      <li class="breadcrumb-item active">talent_recommendation package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/talent_recommendation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="talent-recommendation-package">
+<h1>talent_recommendation package<a class="headerlink" href="#talent-recommendation-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-talent_recommendation.BipartiteRecSys">
+<span id="talent-recommendation-bipartiterecsys-module"></span><h2>talent_recommendation.BipartiteRecSys module<a class="headerlink" href="#module-talent_recommendation.BipartiteRecSys" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.HeteroGNN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">HeteroGNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~torch_geometric.data.hetero_data.HeteroData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_conv_layers=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_layer=&lt;class</span> <span class="pre">'torch_geometric.nn.conv.sage_conv.SAGEConv'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#HeteroGNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>A heterogeneous Graph Neural Network (GNN) module built using PyTorch. This class is designed for handling
+heterogeneous graph data with multiple types of nodes and edges. It constructs a neural network with a specified
+number of convolutional layers, which can be of a user-defined type.</p>
+<p>The network is composed of a sequence of convolutional layers with ReLU activations, except for the final layer.
+It is compatible with node feature dictionaries and edge index dictionaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_channels</strong> (<em>int</em>) – The number of input channels (features).</p></li>
+<li><p><strong>hidden_channels</strong> (<em>int</em>) – The number of hidden channels in the middle layers.</p></li>
+<li><p><strong>out_channels</strong> (<em>int</em>) – The number of output channels (features) produced by the last layer.</p></li>
+<li><p><strong>data</strong> (<em>HeteroData</em>) – The heterogeneous graph data containing multiple types of edges.</p></li>
+<li><p><strong>num_conv_layers</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of convolutional layers in the network, defaults to 3. Must be at least 2.</p></li>
+<li><p><strong>conv_layer</strong> (<em>type</em><em>, </em><em>optional</em>) – The type of convolution layer to be used in the network, defaults to RGCNConv.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the number of convolutional layers is less than 2.</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">HeteroData</span><span class="p">()</span> <span class="c1"># Example data with multiple edge types</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">input_channels</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hidden_channels</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out_channels</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">HeteroGNN</span><span class="p">(</span><span class="n">input_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span> <span class="c1"># Example node features and edge indices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span><span class="p">)</span> <span class="c1"># Perform forward pass</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.HeteroGNN.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_index_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#HeteroGNN.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.HeteroGNN.forward" title="Link to this definition"></a></dt>
+<dd><p>The forward pass of the HeteroGNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – A dictionary containing the node features for each node type.</p></li>
+<li><p><strong>edge_index_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – A dictionary containing the edge indices for each edge type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the output node features for each node type after passing through the GNN layers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.add_new_position_node">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">add_new_position_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hetero_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence_encoder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">techstack_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#add_new_position_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.add_new_position_node" title="Link to this definition"></a></dt>
+<dd><p>Add a new ‘position’ node with edges to ‘techStack’ nodes based on JSON data.</p>
+<p>This function adds a new ‘position’ node to the heterogeneous graph data and
+creates edges to ‘techStack’ nodes based on the information provided in the JSON data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hetero_data</strong> – The heterogeneous graph data to which the new node and edges will be added.</p></li>
+<li><p><strong>json_data</strong> – JSON data containing information about the new ‘position’ node
+and its related ‘techStack’ nodes.</p></li>
+<li><p><strong>sentence_encoder</strong> – An instance of a sentence encoder model or the name/directory path
+of a pre-trained sentence encoder model to be used for encoding descriptions.</p></li>
+<li><p><strong>techstack_mapping</strong> – A dictionary mapping tech stack names to their corresponding indices.</p></li>
+<li><p><strong>device</strong> – The device (e.g., ‘cpu’ or ‘cuda’) to be used for tensor operations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the updated heterogeneous graph data and the index of the new ‘position’ node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[YourHeteroData, int]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;职位&quot;</span><span class="p">:</span> <span class="s2">&quot;Software Engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;技术栈&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;JavaScript&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hetero_data</span><span class="p">,</span> <span class="n">position_idx</span> <span class="o">=</span> <span class="n">add_new_position_node</span><span class="p">(</span><span class="n">hetero_data</span><span class="p">,</span> <span class="n">json_data</span><span class="p">,</span> <span class="n">sentence_encoder</span><span class="p">,</span> <span class="n">techstack_mapping</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">position_idx</span><span class="p">)</span> <span class="c1"># 42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">hetero_data</span><span class="p">)</span> <span class="c1"># &lt;YourHeteroData ...&gt;</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;职位&quot;</span><span class="p">:</span> <span class="s2">&quot;Data Scientist&quot;</span><span class="p">,</span> <span class="s2">&quot;技术栈&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hetero_data</span><span class="p">,</span> <span class="n">position_idx</span> <span class="o">=</span> <span class="n">add_new_position_node</span><span class="p">(</span><span class="n">hetero_data</span><span class="p">,</span> <span class="n">json_data</span><span class="p">,</span> <span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">,</span> <span class="n">techstack_mapping</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">position_idx</span><span class="p">)</span>
+<span class="go">43</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">hetero_data</span><span class="p">)</span>
+<span class="go">&lt;YourHeteroData ...&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.generate_negative_samples">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">generate_negative_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos_edge_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_neg_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#generate_negative_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.generate_negative_samples" title="Link to this definition"></a></dt>
+<dd><p>Generate negative samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_edge_index</strong> – Tensor of shape [2, num_edges] representing positive edges.</p></li>
+<li><p><strong>num_nodes</strong> – Tuple (num_employees, num_projects) - the number of nodes in each category.</p></li>
+<li><p><strong>num_neg_samples</strong> – The number of negative samples to generate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tensor of negative samples.</p>
+</dd>
+</dl>
+<p>This step is crucial for effectively training your model, 
+especially since the quality of the negative samples can significantly influence the model’s performance.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Positive Samples:</dt><dd><p>Positive samples are straightforward since they are the existing edges in your graph. 
+For instance, if you’re recommending projects to employees, 
+your positive samples are the <cite>(‘employee’, ‘workedIn’, ‘project’)</cite> edges.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Negative Samples:</dt><dd><p>Generating negative samples is more challenging. 
+You need to create pairs of nodes that do not have an existing edge between them. 
+It’s important that these negative samples are realistic; 
+that is, they should be plausible but non-existent edges.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Here’s a simple approach to generate negative samples:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Randomly select an ‘employee’ node.</p></li>
+<li><p>Randomly select a ‘project’ or ‘position’ node.</p></li>
+<li><p>Check if this pair forms an edge in your graph. If not, it’s a valid negative sample.</p></li>
+<li><p>Repeat this process until you have the desired number of negative samples.</p></li>
+</ol>
+</div></blockquote>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Example usage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">num_employees</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">num_projects</span> <span class="o">=</span> <span class="mi">4371</span>  <span class="c1"># or num_positions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">num_neg_samples</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c1"># This can be adjusted</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Assuming you have your positive edge index for (&#39;employee&#39;, &#39;workedIn&#39;, &#39;project&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos_edge_index</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="s1">&#39;employee&#39;</span><span class="p">,</span> <span class="s1">&#39;workedIn&#39;</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">edge_index</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neg_edge_index</span> <span class="o">=</span> <span class="n">generate_negative_samples</span><span class="p">(</span><span class="n">pos_edge_index</span><span class="p">,</span> <span class="p">(</span><span class="n">num_employees</span><span class="p">,</span> <span class="n">num_projects</span><span class="p">),</span> <span class="n">num_neg_samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.get_hetero_conv_layer">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">get_hetero_conv_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~torch_geometric.data.hetero_data.HeteroData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_layer=&lt;class</span> <span class="pre">'torch_geometric.nn.conv.sage_conv.SAGEConv'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggr='sum'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#get_hetero_conv_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.get_hetero_conv_layer" title="Link to this definition"></a></dt>
+<dd><p>Creates a heterogeneous convolution layer suitable for processing graph data with multiple types of edges. 
+The function dynamically selects the convolution layer based on the provided <cite>conv_layer</cite> argument. 
+It supports both <cite>RGCNConv</cite> and other convolution layers like <cite>SAGEConv</cite>. The function iterates over the 
+different edge types in the provided <cite>HeteroData</cite> object and creates a convolution layer for each edge type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em>) – The number of input channels (features).</p></li>
+<li><p><strong>out_channels</strong> (<em>int</em>) – The number of output channels (features).</p></li>
+<li><p><strong>data</strong> (<em>HeteroData</em>) – The heterogeneous graph data containing multiple types of edges.</p></li>
+<li><p><strong>conv_layer</strong> (<em>type</em><em>, </em><em>optional</em>) – The type of convolution layer to be used, defaults to SAGEConv.
+Must be a class that can be instantiated with in_channels, out_channels, and other required arguments.</p></li>
+<li><p><strong>aggr</strong> (<em>str</em><em>, </em><em>optional</em>) – The type of aggregation to use (‘sum’, ‘mean’, ‘max’, etc.), defaults to ‘sum’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of <cite>HeteroConv</cite> with a dictionary mapping each edge type to its respective convolution layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HeteroConv</p>
+</dd>
+</dl>
+<p>The function is primarily used in graph neural network models that handle heterogeneous graph data, where
+the graph contains multiple types of nodes and edges. The choice of <cite>conv_layer</cite> and <cite>aggr</cite> allows for 
+customization of the convolution operation based on the model’s specific requirements.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.json_to_feature_vector">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">json_to_feature_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence_encoder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#json_to_feature_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.json_to_feature_vector" title="Link to this definition"></a></dt>
+<dd><p>Convert JSON data to a feature vector using a sentence encoder.</p>
+<p>This function takes a JSON dictionary as input and converts it into a feature vector
+using a specified sentence encoder model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>dict</em>) – The JSON data to be converted to a feature vector.</p></li>
+<li><p><strong>sentence_encoder</strong> (<em>Union</em><em>[</em><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.SequenceEncoder" title="knowledge_algorithms.knowledge_graph.processors.SequenceEncoder"><em>SequenceEncoder</em></a><em>, </em><em>str</em><em>]</em>) – An instance of a sentence encoder model,
+or the name/directory path of a pre-trained sentence encoder model to be used for encoding.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The feature vector representation of the JSON data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a sample text.&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">SequenceEncoder</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_vector</span> <span class="o">=</span> <span class="n">json_to_feature_vector</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">encoder</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">)</span>
+<span class="go">tensor([[0.1234, 0.5678, ..., 0.9876]])</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Another example text.&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_vector</span> <span class="o">=</span> <span class="n">json_to_feature_vector</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">)</span>
+<span class="go">tensor([[0.5678, 0.4321, ..., 0.8765]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.load_configs">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">load_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#load_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.load_configs" title="Link to this definition"></a></dt>
+<dd><p>Load the configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>str</em><em>]</em>) – Either a dict or a yaml configuration file.</p></li>
+<li><p><strong>check_keys</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – check if the config contains the keys in the checklist</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>configuration</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.load_dataset">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.load_dataset" title="Link to this definition"></a></dt>
+<dd><p>Load a HeteroData object from a specified file path.</p>
+<p>This function loads a HeteroData object from a specified file path. If the path is a directory,
+the dataset will be loaded from “dataset.pt” in that directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The file path from which to load the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded HeteroData object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HeteroData</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;./datasets&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">loaded_dataset</span><span class="p">)</span>
+<span class="go">&lt;HeteroData ...&gt;</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;./data/datafile.pth&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">loaded_dataset</span><span class="p">)</span>
+<span class="go">&lt;HeteroData ...&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.load_model">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN"><span class="pre">HeteroGNN</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.load_model" title="Link to this definition"></a></dt>
+<dd><p>Load a PyTorch model from a specified file path and set it to evaluation mode.</p>
+<p>This function loads a PyTorch model from a specified file path and sets it to evaluation mode.
+The model should have the same architecture as the one used during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN"><em>HeteroGNN</em></a>) – The PyTorch model to be loaded.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The file path from which to load the model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded PyTorch model set to evaluation mode.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN">HeteroGNN</a></p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(),</span> <span class="s2">&quot;./models/model.pt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="go">&lt;HeteroGNN ...&gt;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(),</span> <span class="s2">&quot;./saved_models/model.pth&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="go">&lt;HeteroGNN ...&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.rec_sys_train">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">rec_sys_train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HeteroData</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#rec_sys_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.rec_sys_train" title="Link to this definition"></a></dt>
+<dd><p>Train a recommendation system model using heterogeneous graph data.</p>
+<p>This function trains a recommendation system model using heterogeneous graph data
+and saves the trained model and data configurations if specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>str</em><em>]</em>) – Either a dictionary containing configuration parameters
+or a string specifying the path to a configuration file (in YAML format).</p></li>
+<li><p><strong>data</strong> (<em>HeteroData</em>) – The heterogeneous graph data to be used for training.</p></li>
+<li><p><strong>device</strong> (<em>string</em>) – The device to use for training (e.g., “cpu” or “cuda”).</p></li>
+<li><p><strong>save</strong> (<em>bool</em>) – Whether to save the trained model and data configurations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A trained recommendation system model and the input heterogeneous graph data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN">HeteroGNN</a>, HeteroData]</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">configs</span> <span class="o">=</span> <span class="s2">&quot;./my_configs.yaml&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">rec_sys_train</span><span class="p">(</span><span class="n">configs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">rec_sys_train</span><span class="p">({</span><span class="s2">&quot;neo4j&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:7474&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;password&quot;</span><span class="p">}},</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.recommend">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">recommend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence_encoder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#recommend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.recommend" title="Link to this definition"></a></dt>
+<dd><p>Recommend top employees for a new position based on JSON request and model.</p>
+<p>This function recommends the top employees for a new position based on the provided JSON request,
+a trained recommendation model, and existing data. It calculates compatibility scores for employees
+and ranks them to provide the top recommendations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_request</strong> (<em>dict</em>) – JSON request containing information about the new ‘position’ node.</p></li>
+<li><p><strong>model</strong> – The trained recommendation model.</p></li>
+<li><p><strong>data</strong> – The heterogeneous graph data containing employee and ‘position’ nodes.</p></li>
+<li><p><strong>sentence_encoder</strong> – An instance of a sentence encoder model or the name/directory path
+of a pre-trained sentence encoder model to be used for encoding descriptions.</p></li>
+<li><p><strong>topk</strong> (<em>int</em>) – The number of top recommendations to return (default is 5).</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – Verbosity level (0 for no output, 1 for minimal output).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples containing recommended employee names and their corresponding scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, float]]</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">json_request</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;职位&quot;</span><span class="p">:</span> <span class="s2">&quot;Software Engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;技术栈&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;JavaScript&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recommendations</span> <span class="o">=</span> <span class="n">recommend</span><span class="p">(</span><span class="n">json_request</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">sentence_encoder</span><span class="p">,</span> <span class="n">topk</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">employee</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">recommendations</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Employee: </span><span class="si">{</span><span class="n">employee</span><span class="si">}</span><span class="s2">, Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Employee: John Smith, Score: 0.9876</span>
+<span class="go">Employee: Sarah Brown, Score: 0.8765</span>
+<span class="go">Employee: Michael Johnson, Score: 0.7654</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.save_configs">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">save_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#save_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.save_configs" title="Link to this definition"></a></dt>
+<dd><p>Save the configuration to a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>dict</em>) – The configuration to save.</p></li>
+<li><p><strong>file_path</strong> (<em>str</em>) – The file path where the configuration will be saved.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.save_dataset">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">save_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HeteroData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#save_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.save_dataset" title="Link to this definition"></a></dt>
+<dd><p>Save a HeteroData object to a specified file path.</p>
+<p>This function saves a HeteroData object to a specified file path. If the path is a directory,
+the dataset will be saved as “dataset.pt” in that directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>HeteroData</em>) – The HeteroData object to be saved.</p></li>
+<li><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The file path where the dataset will be saved.
+If a directory is provided, the dataset will be saved as “dataset.pt” in that directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute file path where the dataset was saved.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">MyHeteroData</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">saved_path</span> <span class="o">=</span> <span class="n">save_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;./datasets&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">saved_path</span><span class="p">)</span>
+<span class="go">&#39;/path/to/datasets/dataset.pt&#39;</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">MyHeteroData</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">saved_path</span> <span class="o">=</span> <span class="n">save_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;./data/datafile.pth&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">saved_path</span><span class="p">)</span>
+<span class="go">&#39;/path/to/data/datafile.pth&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.save_model">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN"><span class="pre">HeteroGNN</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.save_model" title="Link to this definition"></a></dt>
+<dd><p>Save a PyTorch model to a specified file path.</p>
+<p>This function saves a PyTorch model to a specified file path. If the path is a directory,
+the model will be saved as “model.pt” in that directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#talent_recommendation.BipartiteRecSys.HeteroGNN" title="talent_recommendation.BipartiteRecSys.HeteroGNN"><em>HeteroGNN</em></a>) – The PyTorch model to be saved.</p></li>
+<li><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The file path where the model will be saved.
+If a directory is provided, the model will be saved as “model.pt” in that directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute file path where the model was saved.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">HeteroGNN</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">saved_path</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;./models&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">saved_path</span><span class="p">)</span>
+<span class="go">&#39;/path/to/models/model.pt&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">HeteroGNN</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">saved_path</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;./model.pth&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">saved_path</span><span class="p">)</span>
+<span class="go">&#39;/path/to/model.pth&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.score_and_rank_employees">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">score_and_rank_employees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hetero_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_position_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#score_and_rank_employees"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.score_and_rank_employees" title="Link to this definition"></a></dt>
+<dd><p>Score and rank employees based on compatibility with a new ‘position’ node.</p>
+<p>This function scores and ranks employees based on their compatibility with a new ‘position’ node
+that was added to the heterogeneous graph. Compatibility is calculated using embeddings obtained
+from a trained heterogeneous graph neural network model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>YourHeteroGNN</em>) – The trained heterogeneous graph neural network model.</p></li>
+<li><p><strong>hetero_data</strong> (<em>YourHeteroData</em>) – The heterogeneous graph data containing employees and the new ‘position’.</p></li>
+<li><p><strong>new_position_idx</strong> (<em>int</em>) – The index of the new ‘position’ node in the graph.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – The device (e.g., ‘cpu’ or ‘cuda’) to be used for tensor operations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Two tensors containing sorted indices and corresponding scores of employees.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">YourHeteroGNN</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hetero_data</span> <span class="o">=</span> <span class="n">YourHeteroData</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_position_idx</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sorted_indices</span><span class="p">,</span> <span class="n">sorted_scores</span> <span class="o">=</span> <span class="n">score_and_rank_employees</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">hetero_data</span><span class="p">,</span> <span class="n">new_position_idx</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">)</span>
+<span class="go">tensor([10, 5, 20, ...])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sorted_scores</span><span class="p">)</span>
+<span class="go">tensor([0.9876, 0.8765, 0.7654, ...])</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">YourHeteroGNN</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hetero_data</span> <span class="o">=</span> <span class="n">YourHeteroData</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_position_idx</span> <span class="o">=</span> <span class="mi">43</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sorted_indices</span><span class="p">,</span> <span class="n">sorted_scores</span> <span class="o">=</span> <span class="n">score_and_rank_employees</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">hetero_data</span><span class="p">,</span> <span class="n">new_position_idx</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">)</span>
+<span class="go">tensor([15, 12, 30, ...])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sorted_scores</span><span class="p">)</span>
+<span class="go">tensor([0.8765, 0.7654, 0.6543, ...])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.similarity_compute">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">similarity_compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#similarity_compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.similarity_compute" title="Link to this definition"></a></dt>
+<dd><p>Compute and return employee recommendations based on a similarity input request.</p>
+<p>This function computes employee recommendations based on a similarity input request
+by utilizing a trained recommendation model, heterogeneous graph data, and a sentence encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_request</strong> (<em>str</em>) – The input request describing the new ‘position’ node.</p></li>
+<li><p><strong>configs</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Configuration information in the form of a dictionary
+or the path to a configuration file.</p></li>
+<li><p><strong>topk</strong> (<em>int</em>) – The number of top recommendations to return (default is 5).</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>, </em><em>None</em><em>]</em>) – The path to a saved HeteroData object or None.</p></li>
+<li><p><strong>model</strong> (<em>Any</em>) – The trained recommendation model or None.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – Verbosity level (0 for no output, 1 for minimal output).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a DataFrame with employee information and a list of recommended employees with scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[pd.DataFrame, List[Tuple[str, float]]]</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">input_request</span> <span class="o">=</span> <span class="s2">&quot;We are looking for a Python Developer with experience in web development.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config_file</span> <span class="o">=</span> <span class="s2">&quot;config.yaml&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recommendations_df</span><span class="p">,</span> <span class="n">recommendations</span> <span class="o">=</span> <span class="n">similarity_compute</span><span class="p">(</span><span class="n">input_request</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">topk</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">recommendations_df</span><span class="p">)</span>
+<span class="go">   工号   学历  首次工作时间  年龄   技术栈</span>
+<span class="go">0  John Smith  Master&#39;s Degree   2010  35  [&#39;Python&#39;, &#39;JavaScript&#39;]</span>
+<span class="go">1  Sarah Brown  Bachelor&#39;s Degree   2012  31  [&#39;Python&#39;, &#39;JavaScript&#39;]</span>
+<span class="go">2  Michael Johnson  PhD   2009  37  [&#39;Python&#39;, &#39;JavaScript&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">recommendations</span><span class="p">)</span>
+<span class="go">[(&#39;John Smith&#39;, 0.9876), (&#39;Sarah Brown&#39;, 0.8765), (&#39;Michael Johnson&#39;, 0.7654)]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.train">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HeteroData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HeteroData</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_edge_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'MarginRankingLoss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optimizer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Adam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_neg_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_function_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'margin':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_to_hit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_per_epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.train" title="Link to this definition"></a></dt>
+<dd><p>Train a model on heterogeneous graph data using specified loss function, optimizer, and evaluation metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The graph neural network model to be trained.</p></li>
+<li><p><strong>train_data</strong> (<em>HeteroData</em>) – The training dataset.</p></li>
+<li><p><strong>val_data</strong> (<em>HeteroData</em><em>, </em><em>optional</em>) – The validation dataset, defaults to None.</p></li>
+<li><p><strong>target_edge_type</strong> (<em>tuple</em><em>, </em><em>optional</em>) – The target edge type for training, specified as a tuple (head, relation, tail).</p></li>
+<li><p><strong>loss_function</strong> (<em>Union</em><em>[</em><em>torch.nn.Module</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The loss function or its string identifier, defaults to ‘MarginRankingLoss’.</p></li>
+<li><p><strong>optimizer</strong> (<em>Union</em><em>[</em><em>torch.optim.Optimizer</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The optimizer or its string identifier, defaults to ‘Adam’.</p></li>
+<li><p><strong>num_epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training epochs, defaults to 3.</p></li>
+<li><p><strong>num_neg_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of negative samples per positive sample, defaults to None.</p></li>
+<li><p><strong>loss_function_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional keyword arguments for the loss function, defaults to {“margin”: 0.5}.</p></li>
+<li><p><strong>optimizer_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional keyword arguments for the optimizer, defaults to {}.</p></li>
+<li><p><strong>lr</strong> (<em>float</em><em>, </em><em>optional</em>) – Learning rate for the optimizer, defaults to 0.001.</p></li>
+<li><p><strong>k_to_hit</strong> (<em>int</em><em>, </em><em>optional</em>) – The ‘k’ value for hit rate calculation, defaults to 5.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – The device to run the training on (CPU or CUDA), defaults to None.</p></li>
+<li><p><strong>val_per_epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – Validation frequency (number of epochs), defaults to 10.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">SomeGNNModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_data</span><span class="p">,</span> <span class="n">val_data</span> <span class="o">=</span> <span class="n">load_hetero_data</span><span class="p">()</span>  <span class="c1"># Load your training and validation data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_data</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">target_edge_type</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;interacts&quot;</span><span class="p">,</span> <span class="s2">&quot;item&quot;</span><span class="p">),</span>
+<span class="go">          num_epochs=10, k_to_hit=10, lr=0.005)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.BipartiteRecSys.transform_hetero_data_for_rec_sys">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.BipartiteRecSys.</span></span><span class="sig-name descname"><span class="pre">transform_hetero_data_for_rec_sys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_data_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_sampling_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rev_edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/BipartiteRecSys.html#transform_hetero_data_for_rec_sys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.BipartiteRecSys.transform_hetero_data_for_rec_sys" title="Link to this definition"></a></dt>
+<dd><p>Transforms heterogeneous graph data for a recommendation system, with options to make the graph undirected
+and to split the data randomly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>HeteroData</em>) – The input graph data.</p></li>
+<li><p><strong>random_data_split</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, splits the data randomly into training, validation, and test sets, defaults to True.</p></li>
+<li><p><strong>num_val</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of edges used for validation, defaults to 0.1.</p></li>
+<li><p><strong>num_test</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of edges used for testing, defaults to 0.0.</p></li>
+<li><p><strong>is_undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – Specifies if the split edges should be undirected, defaults to True.</p></li>
+<li><p><strong>neg_sampling_ratio</strong> (<em>float</em><em>, </em><em>optional</em>) – The ratio of negative samples for each positive sample, defaults to 0.0.</p></li>
+<li><p><strong>edge_types</strong> (<em>list</em><em> of </em><em>tuples</em><em>, </em><em>optional</em>) – List of edge types to consider for splitting, defaults to None.</p></li>
+<li><p><strong>rev_edge_types</strong> (<em>list</em><em> of </em><em>tuples</em><em>, </em><em>optional</em>) – List of reverse edge types, corresponding to <cite>edge_types</cite>, defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Either the transformed data or a tuple of (train_data, val_data, test_data), depending on the flags.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HeteroData or (HeteroData, HeteroData, HeteroData)</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">HeteroData</span><span class="p">()</span> <span class="c1"># Example graph data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_data</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">test_data</span> <span class="o">=</span> <span class="n">transform_hetero_data_for_rec_sys</span><span class="p">(</span>
+<span class="go">        data, num_val=0.15, num_test=0.05, edge_types=[(&quot;user&quot;, &quot;likes&quot;, &quot;item&quot;)])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-talent_recommendation.metrics">
+<span id="talent-recommendation-metrics-module"></span><h2>talent_recommendation.metrics module<a class="headerlink" href="#module-talent_recommendation.metrics" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.metrics.compute_auc">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.metrics.</span></span><span class="sig-name descname"><span class="pre">compute_auc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_scores</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/metrics.html#compute_auc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.metrics.compute_auc" title="Link to this definition"></a></dt>
+<dd><p>Compute the Area Under the Receiver Operating Characteristic Curve (ROC AUC) from positive and negative scores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the positive class.</p></li>
+<li><p><strong>neg_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the negative class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ROC AUC score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neg_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auc</span> <span class="o">=</span> <span class="n">compute_auc</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROC AUC Score: </span><span class="si">{</span><span class="n">auc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.metrics.compute_precision_recall_f1">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.metrics.</span></span><span class="sig-name descname"><span class="pre">compute_precision_recall_f1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/metrics.html#compute_precision_recall_f1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.metrics.compute_precision_recall_f1" title="Link to this definition"></a></dt>
+<dd><p>Compute precision, recall, and F1-score based on positive and negative scores, using a specified threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the positive class.</p></li>
+<li><p><strong>neg_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the negative class.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – The threshold for classifying scores into positive or negative, defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The precision, recall, and F1-score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float, float, float)</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neg_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">compute_precision_recall_f1</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precision: </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">}</span><span class="s2">, F1 Score: </span><span class="si">{</span><span class="n">f1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="talent_recommendation.metrics.hit_at_k">
+<span class="sig-prename descclassname"><span class="pre">talent_recommendation.metrics.</span></span><span class="sig-name descname"><span class="pre">hit_at_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/talent_recommendation/metrics.html#hit_at_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#talent_recommendation.metrics.hit_at_k" title="Link to this definition"></a></dt>
+<dd><p>Compute the hit rate at k, which is the proportion of positive scores in the top-k combined scores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the positive class.</p></li>
+<li><p><strong>neg_scores</strong> (<em>torch.Tensor</em>) – Tensor of scores for the negative class.</p></li>
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of top scores to consider for calculating the hit rate, defaults to 10.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The hit rate at k.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neg_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hit_rate</span> <span class="o">=</span> <span class="n">hit_at_k</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hit Rate at 3: </span><span class="si">{</span><span class="n">hit_rate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-talent_recommendation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-talent_recommendation" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="knowledge_algorithms.language_models.html" class="btn btn-neutral float-left" title="knowledge_algorithms.language_models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ywenxi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

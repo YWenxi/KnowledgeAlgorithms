@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>talent_recommendation.metrics &#8212; RecSysAlgo 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=039e1c02" />
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for talent_recommendation.metrics</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<div class="viewcode-block" id="compute_auc">
+<a class="viewcode-back" href="../../talent_recommendation.html#talent_recommendation.metrics.compute_auc">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_auc</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Area Under the Receiver Operating Characteristic Curve (ROC AUC) from positive and negative scores.</span>
+
+<span class="sd">    :param pos_scores: Tensor of scores for the positive class.</span>
+<span class="sd">    :type pos_scores: torch.Tensor</span>
+<span class="sd">    :param neg_scores: Tensor of scores for the negative class.</span>
+<span class="sd">    :type neg_scores: torch.Tensor</span>
+<span class="sd">    :return: The ROC AUC score.</span>
+<span class="sd">    :rtype: float</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; pos_scores = torch.tensor([0.8, 0.9, 0.7])</span>
+<span class="sd">        &gt;&gt;&gt; neg_scores = torch.tensor([0.3, 0.2, 0.4])</span>
+<span class="sd">        &gt;&gt;&gt; auc = compute_auc(pos_scores, neg_scores)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;ROC AUC Score: {auc}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pos_scores</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">neg_scores</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))])</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="compute_precision_recall_f1">
+<a class="viewcode-back" href="../../talent_recommendation.html#talent_recommendation.metrics.compute_precision_recall_f1">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_precision_recall_f1</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute precision, recall, and F1-score based on positive and negative scores, using a specified threshold.</span>
+
+<span class="sd">    :param pos_scores: Tensor of scores for the positive class.</span>
+<span class="sd">    :type pos_scores: torch.Tensor</span>
+<span class="sd">    :param neg_scores: Tensor of scores for the negative class.</span>
+<span class="sd">    :type neg_scores: torch.Tensor</span>
+<span class="sd">    :param threshold: The threshold for classifying scores into positive or negative, defaults to 0.5.</span>
+<span class="sd">    :type threshold: float, optional</span>
+<span class="sd">    :return: The precision, recall, and F1-score.</span>
+<span class="sd">    :rtype: (float, float, float)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; pos_scores = torch.tensor([0.8, 0.9, 0.7])</span>
+<span class="sd">        &gt;&gt;&gt; neg_scores = torch.tensor([0.3, 0.2, 0.4])</span>
+<span class="sd">        &gt;&gt;&gt; precision, recall, f1 = compute_precision_recall_f1(pos_scores, neg_scores)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Precision: {precision}, Recall: {recall}, F1 Score: {f1}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">])</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">scores</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pos_scores</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">neg_scores</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))])</span>
+    
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">predictions</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">predictions</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">predictions</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span></div>
+
+
+
+<div class="viewcode-block" id="hit_at_k">
+<a class="viewcode-back" href="../../talent_recommendation.html#talent_recommendation.metrics.hit_at_k">[docs]</a>
+<span class="k">def</span> <span class="nf">hit_at_k</span><span class="p">(</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the hit rate at k, which is the proportion of positive scores in the top-k combined scores.</span>
+
+<span class="sd">    :param pos_scores: Tensor of scores for the positive class.</span>
+<span class="sd">    :type pos_scores: torch.Tensor</span>
+<span class="sd">    :param neg_scores: Tensor of scores for the negative class.</span>
+<span class="sd">    :type neg_scores: torch.Tensor</span>
+<span class="sd">    :param k: The number of top scores to consider for calculating the hit rate, defaults to 10.</span>
+<span class="sd">    :type k: int, optional</span>
+<span class="sd">    :return: The hit rate at k.</span>
+<span class="sd">    :rtype: float</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; pos_scores = torch.tensor([0.8, 0.9, 0.7])</span>
+<span class="sd">        &gt;&gt;&gt; neg_scores = torch.tensor([0.3, 0.2, 0.4, 0.5, 0.6])</span>
+<span class="sd">        &gt;&gt;&gt; hit_rate = hit_at_k(pos_scores, neg_scores, k=3)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Hit Rate at 3: {hit_rate}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Combine scores and sort them</span>
+    <span class="n">combined_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pos_scores</span><span class="p">,</span> <span class="n">neg_scores</span><span class="p">])</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">combined_scores</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="c1"># Calculate hits</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span> <span class="o">&lt;</span> <span class="n">pos_scores</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">hits</span> <span class="o">/</span> <span class="n">k</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">RecSysAlgo</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">KnowledgeAlgorithms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, ywenxi.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

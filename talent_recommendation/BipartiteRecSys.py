@@ -93,7 +93,7 @@ class HeteroGNN(torch.nn.Module):
         >>> x_dict, edge_index_dict = data.x_dict, data.edge_index_dict # Example node features and edge indices
         >>> out = model(x_dict, edge_index_dict) # Perform forward pass
     """
-    def __init__(self, input_channels, hidden_channels, out_channels, data: HeteroData, num_conv_layers=3, 
+    def __init__(self, input_channels, hidden_channels, out_channels, data: HeteroData, num_conv_layers=3,
                  conv_layer=SAGEConv):
         super().__init__()
 
@@ -221,7 +221,6 @@ def transform_hetero_data_for_rec_sys(data, random_data_split=True,
         return data
 
 
-
 def generate_negative_samples(pos_edge_index, num_nodes, num_neg_samples):
     """
     Generate negative samples.
@@ -254,16 +253,15 @@ def generate_negative_samples(pos_edge_index, num_nodes, num_neg_samples):
         4. Repeat this process until you have the desired number of negative samples.
     
     
-    *Examples:*
-     
-    >>> # Example usage
-    >>> num_employees = 10000
-    >>> num_projects = 4371  # or num_positions
-    >>> num_neg_samples = 10000  # This can be adjusted
+    Examples:
+        >>> # Example usage
+        >>> num_employees = 10000
+        >>> num_projects = 4371  # or num_positions
+        >>> num_neg_samples = 10000  # This can be adjusted
 
-    >>> # Assuming you have your positive edge index for ('employee', 'workedIn', 'project')
-    >>> pos_edge_index = data[('employee', 'workedIn', 'project')].edge_index
-    >>> neg_edge_index = generate_negative_samples(pos_edge_index, (num_employees, num_projects), num_neg_samples)
+        >>> # Assuming you have your positive edge index for ('employee', 'workedIn', 'project')
+        >>> pos_edge_index = data[('employee', 'workedIn', 'project')].edge_index
+        >>> neg_edge_index = generate_negative_samples(pos_edge_index, (num_employees, num_projects), num_neg_samples)
     """
     neg_samples = []
     while len(neg_samples) < num_neg_samples:
@@ -425,11 +423,11 @@ def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None, 
     :rtype: Tuple[HeteroGNN, HeteroData]
 
     Example:
-    >>> configs = "./my_configs.yaml"
-    >>> model, data = rec_sys_train(configs)
+        >>> configs = "./my_configs.yaml"
+        >>> model, data = rec_sys_train(configs)
     
     Example:
-    >>> model, data = rec_sys_train({"neo4j": {"url": "http://localhost:7474", "user": "user", "password": "password"}}, data)
+        >>> model, data = rec_sys_train({"neo4j": {"url": "http://localhost:7474", "user": "user", "password": "password"}}, data)
     """
     
     # load configs
@@ -483,16 +481,16 @@ def save_model(model: HeteroGNN, path="./"):
     :rtype: Path
 
     Example:
-    >>> model = HeteroGNN(...)
-    >>> saved_path = save_model(model, "./models")
-    >>> print(saved_path)
-    '/path/to/models/model.pt'
+        >>> model = HeteroGNN(...)
+        >>> saved_path = save_model(model, "./models")
+        >>> print(saved_path)
+        '/path/to/models/model.pt'
 
     Example:
-    >>> model = HeteroGNN(...)
-    >>> saved_path = save_model(model, "./model.pth")
-    >>> print(saved_path)
-    '/path/to/model.pth'
+        >>> model = HeteroGNN(...)
+        >>> saved_path = save_model(model, "./model.pth")
+        >>> print(saved_path)
+        '/path/to/model.pth'
     """
     path = Path(path)
     if path.is_dir():
@@ -515,14 +513,14 @@ def load_model(model: HeteroGNN, path: str):
     :rtype: HeteroGNN
 
     Example:
-    >>> loaded_model = load_model(MyModel(), "./models/model.pt")
-    >>> loaded_model.eval()
-    <HeteroGNN ...>
+        >>> loaded_model = load_model(MyModel(), "./models/model.pt")
+        >>> loaded_model.eval()
+        <HeteroGNN ...>
 
     Example:
-    >>> loaded_model = load_model(MyModel(), "./saved_models/model.pth")
-    >>> loaded_model.eval()
-    <HeteroGNN ...>
+        >>> loaded_model = load_model(MyModel(), "./saved_models/model.pth")
+        >>> loaded_model.eval()
+        <HeteroGNN ...>
     """
     model.load_state_dict(torch.load(Path(path)))
     model.eval()  # Set the model to evaluation mode
@@ -544,16 +542,18 @@ def save_dataset(dataset: HeteroData, path:str="./"):
     :rtype: Path
 
     Example:
-    >>> dataset = MyHeteroData()
-    >>> saved_path = save_dataset(dataset, "./datasets")
-    >>> print(saved_path)
-    '/path/to/datasets/dataset.pt'
+
+        >>> dataset = MyHeteroData()
+        >>> saved_path = save_dataset(dataset, "./datasets")
+        >>> print(saved_path)
+        '/path/to/datasets/dataset.pt'
 
     Example:
-    >>> dataset = MyHeteroData()
-    >>> saved_path = save_dataset(dataset, "./data/datafile.pth")
-    >>> print(saved_path)
-    '/path/to/data/datafile.pth'
+
+        >>> dataset = MyHeteroData()
+        >>> saved_path = save_dataset(dataset, "./data/datafile.pth")
+        >>> print(saved_path)
+        '/path/to/data/datafile.pth'
     """
     path = Path(path)
     if path.is_dir():
@@ -578,11 +578,13 @@ def load_dataset(path: Union[str, Path]):
     :rtype: HeteroData
 
     Example:
+
     >>> loaded_dataset = load_dataset("./datasets")
     >>> print(loaded_dataset)
     <HeteroData ...>
 
     Example:
+
     >>> loaded_dataset = load_dataset("./data/datafile.pth")
     >>> print(loaded_dataset)
     <HeteroData ...>
@@ -615,17 +617,19 @@ def json_to_feature_vector(json_data: dict, sentence_encoder=None):
     :rtype: torch.Tensor
 
     Example:
-    >>> json_data = {"text": "This is a sample text."}
-    >>> encoder = SequenceEncoder("bert-base-uncased")
-    >>> feature_vector = json_to_feature_vector(json_data, encoder)
-    >>> print(feature_vector)
-    tensor([[0.1234, 0.5678, ..., 0.9876]])
+
+        >>> json_data = {"text": "This is a sample text."}
+        >>> encoder = SequenceEncoder("bert-base-uncased")
+        >>> feature_vector = json_to_feature_vector(json_data, encoder)
+        >>> print(feature_vector)
+        tensor([[0.1234, 0.5678, ..., 0.9876]])
 
     Example:
-    >>> json_data = {"text": "Another example text."}
-    >>> feature_vector = json_to_feature_vector(json_data, "bert-base-uncased")
-    >>> print(feature_vector)
-    tensor([[0.5678, 0.4321, ..., 0.8765]])
+
+        >>> json_data = {"text": "Another example text."}
+        >>> feature_vector = json_to_feature_vector(json_data, "bert-base-uncased")
+        >>> print(feature_vector)
+        tensor([[0.5678, 0.4321, ..., 0.8765]])
     """
     
     # Example function to convert JSON to a feature vector
@@ -661,20 +665,20 @@ def add_new_position_node(hetero_data, json_data, sentence_encoder=None, techsta
     :rtype: Tuple[YourHeteroData, int]
 
     Example:
-    >>> json_data = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
-    >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, sentence_encoder, techstack_mapping, 'cuda')
-    >>> print(position_idx)
-    42
-    >>> print(hetero_data)
-    <YourHeteroData ...>
+
+        >>> json_data = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
+        >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, sentence_encoder, techstack_mapping, 'cuda')
+        >>> print(position_idx) # 42
+        >>> print(hetero_data) # <YourHeteroData ...>
 
     Example:
-    >>> json_data = {"职位": "Data Scientist", "技术栈": ["Python", "R"]}
-    >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, "bert-base-uncased", techstack_mapping, 'cpu')
-    >>> print(position_idx)
-    43
-    >>> print(hetero_data)
-    <YourHeteroData ...>
+
+        >>> json_data = {"职位": "Data Scientist", "技术栈": ["Python", "R"]}
+        >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, "bert-base-uncased", techstack_mapping, 'cpu')
+        >>> print(position_idx)
+        43
+        >>> print(hetero_data)
+        <YourHeteroData ...>
     """
     
     hetero_data.to(device)
@@ -730,6 +734,7 @@ def score_and_rank_employees(model, hetero_data, new_position_idx, device='cpu')
     :rtype: Tuple[torch.Tensor, torch.Tensor]
 
     Example:
+
     >>> model = YourHeteroGNN()
     >>> hetero_data = YourHeteroData()
     >>> new_position_idx = 42
@@ -740,14 +745,15 @@ def score_and_rank_employees(model, hetero_data, new_position_idx, device='cpu')
     tensor([0.9876, 0.8765, 0.7654, ...])
 
     Example:
-    >>> model = YourHeteroGNN()
-    >>> hetero_data = YourHeteroData()
-    >>> new_position_idx = 43
-    >>> sorted_indices, sorted_scores = score_and_rank_employees(model, hetero_data, new_position_idx, 'cpu')
-    >>> print(sorted_indices)
-    tensor([15, 12, 30, ...])
-    >>> print(sorted_scores)
-    tensor([0.8765, 0.7654, 0.6543, ...])
+
+        >>> model = YourHeteroGNN()
+        >>> hetero_data = YourHeteroData()
+        >>> new_position_idx = 43
+        >>> sorted_indices, sorted_scores = score_and_rank_employees(model, hetero_data, new_position_idx, 'cpu')
+        >>> print(sorted_indices)
+        tensor([15, 12, 30, ...])
+        >>> print(sorted_scores)
+        tensor([0.8765, 0.7654, 0.6543, ...])
     """
     model.eval()
     hetero_data = hetero_data.to(device)
@@ -782,10 +788,11 @@ def _reverse_mapping(mapping_dict):
     :rtype: dict
 
     Example:
-    >>> original_dict = {'a': 1, 'b': 2, 'c': 3}
-    >>> reversed_dict = _reverse_mapping(original_dict)
-    >>> print(reversed_dict)
-    {1: 'a', 2: 'b', 3: 'c}
+
+        >>> original_dict = {'a': 1, 'b': 2, 'c': 3}
+        >>> reversed_dict = _reverse_mapping(original_dict)
+        >>> print(reversed_dict)
+        {1: 'a', 2: 'b', 3: 'c}
     """
     reversed_dict = {index: name for name, index in mapping_dict.items()}
     return reversed_dict
@@ -811,13 +818,13 @@ def recommend(json_request, model, data, sentence_encoder=None, topk=5, verbose=
     :rtype: List[Tuple[str, float]]
 
     Example:
-    >>> json_request = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
-    >>> recommendations = recommend(json_request, model, data, sentence_encoder, topk=3, verbose=1)
-    >>> for employee, score in recommendations:
-    ...     print(f"Employee: {employee}, Score: {score}")
-    Employee: John Smith, Score: 0.9876
-    Employee: Sarah Brown, Score: 0.8765
-    Employee: Michael Johnson, Score: 0.7654
+        >>> json_request = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
+        >>> recommendations = recommend(json_request, model, data, sentence_encoder, topk=3, verbose=1)
+        >>> for employee, score in recommendations:
+        ...     print(f"Employee: {employee}, Score: {score}")
+        Employee: John Smith, Score: 0.9876
+        Employee: Sarah Brown, Score: 0.8765
+        Employee: Michael Johnson, Score: 0.7654
     """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
@@ -870,16 +877,16 @@ def similarity_compute(
     :rtype: Tuple[pd.DataFrame, List[Tuple[str, float]]]
 
     Example:
-    >>> input_request = "We are looking for a Python Developer with experience in web development."
-    >>> config_file = "config.yaml"
-    >>> recommendations_df, recommendations = similarity_compute(input_request, config_file, topk=3, data=None, model=None, verbose=1)
-    >>> print(recommendations_df)
-       工号   学历  首次工作时间  年龄   技术栈
-    0  John Smith  Master's Degree   2010  35  ['Python', 'JavaScript']
-    1  Sarah Brown  Bachelor's Degree   2012  31  ['Python', 'JavaScript']
-    2  Michael Johnson  PhD   2009  37  ['Python', 'JavaScript']
-    >>> print(recommendations)
-    [('John Smith', 0.9876), ('Sarah Brown', 0.8765), ('Michael Johnson', 0.7654)]
+        >>> input_request = "We are looking for a Python Developer with experience in web development."
+        >>> config_file = "config.yaml"
+        >>> recommendations_df, recommendations = similarity_compute(input_request, config_file, topk=3, data=None, model=None, verbose=1)
+        >>> print(recommendations_df)
+           工号   学历  首次工作时间  年龄   技术栈
+        0  John Smith  Master's Degree   2010  35  ['Python', 'JavaScript']
+        1  Sarah Brown  Bachelor's Degree   2012  31  ['Python', 'JavaScript']
+        2  Michael Johnson  PhD   2009  37  ['Python', 'JavaScript']
+        >>> print(recommendations)
+        [('John Smith', 0.9876), ('Sarah Brown', 0.8765), ('Michael Johnson', 0.7654)]
     """
     # load configs
     configs = load_configs(configs, check_keys=["neo4j"])

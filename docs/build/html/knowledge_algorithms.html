@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>knowledge_algorithms package &mdash; RecSysAlgo 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="knowledge_algorithms.deep_learning package" href="knowledge_algorithms.deep_learning.html" />
+    <link rel="prev" title="KnowledgeAlgorithms" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RecSysAlgo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">KnowledgeAlgorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">knowledge_algorithms package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.deep_learning.html">knowledge_algorithms.deep_learning package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html">knowledge_algorithms.knowledge_graph package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.language_models.html">knowledge_algorithms.language_models package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-knowledge_algorithms.base">knowledge_algorithms.base module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface"><code class="docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#knowledge-algorithms-setup-module">knowledge_algorithms.setup module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-knowledge_algorithms.tree_models">knowledge_algorithms.tree_models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.tree_models.LightGBM"><code class="docutils literal notranslate"><span class="pre">LightGBM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-knowledge_algorithms">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.APILanguageModel"><code class="docutils literal notranslate"><span class="pre">APILanguageModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.AlgorithmInterface"><code class="docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.LightGBM"><code class="docutils literal notranslate"><span class="pre">LightGBM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.LocalLanguageModel"><code class="docutils literal notranslate"><span class="pre">LocalLanguageModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.Neo4jAPI"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.PromptManager"><code class="docutils literal notranslate"><span class="pre">PromptManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#knowledge_algorithms.PyTorchAlgorithm"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="talent_recommendation.html">talent_recommendation package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RecSysAlgo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">KnowledgeAlgorithms</a></li>
+      <li class="breadcrumb-item active">knowledge_algorithms package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/knowledge_algorithms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="knowledge-algorithms-package">
+<h1>knowledge_algorithms package<a class="headerlink" href="#knowledge-algorithms-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="knowledge_algorithms.deep_learning.html">knowledge_algorithms.deep_learning package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#module-knowledge_algorithms.deep_learning.jax">knowledge_algorithms.deep_learning.jax module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#module-knowledge_algorithms.deep_learning.pytorch">knowledge_algorithms.deep_learning.pytorch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorithm"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorithm.load_model"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm.load_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorithm.predict"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorithm.save_model"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#knowledge_algorithms.deep_learning.pytorch.PyTorchAlgorithm.train"><code class="docutils literal notranslate"><span class="pre">PyTorchAlgorithm.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#module-knowledge_algorithms.deep_learning.tensorflow">knowledge_algorithms.deep_learning.tensorflow module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.deep_learning.html#module-knowledge_algorithms.deep_learning">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html">knowledge_algorithms.knowledge_graph package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#module-knowledge_algorithms.knowledge_graph.neo4j">knowledge_algorithms.knowledge_graph.neo4j module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.close"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.decode"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.decode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.decode_col"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.decode_col()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.fetch_data"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.fetch_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.load_edge"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.load_edge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.load_hetero_graph_dataset"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.load_hetero_graph_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.neo4j.Neo4jAPI.load_node"><code class="docutils literal notranslate"><span class="pre">Neo4jAPI.load_node()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#module-knowledge_algorithms.knowledge_graph.processors">knowledge_algorithms.knowledge_graph.processors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.IdentityEncoder"><code class="docutils literal notranslate"><span class="pre">IdentityEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.RDFProcessor"><code class="docutils literal notranslate"><span class="pre">RDFProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.RDFProcessor.load"><code class="docutils literal notranslate"><span class="pre">RDFProcessor.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.RDFProcessor.query"><code class="docutils literal notranslate"><span class="pre">RDFProcessor.query()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.SequenceEncoder"><code class="docutils literal notranslate"><span class="pre">SequenceEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.decode_tensor"><code class="docutils literal notranslate"><span class="pre">decode_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.processors.encode_tensor"><code class="docutils literal notranslate"><span class="pre">encode_tensor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#module-knowledge_algorithms.knowledge_graph">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.RDFProcessor"><code class="docutils literal notranslate"><span class="pre">RDFProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.RDFProcessor.load"><code class="docutils literal notranslate"><span class="pre">RDFProcessor.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.knowledge_graph.RDFProcessor.query"><code class="docutils literal notranslate"><span class="pre">RDFProcessor.query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="knowledge_algorithms.language_models.html">knowledge_algorithms.language_models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.language_models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.language_models.html#module-knowledge_algorithms.language_models.models">knowledge_algorithms.language_models.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.models.APILanguageModel"><code class="docutils literal notranslate"><span class="pre">APILanguageModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.models.LocalLanguageModel"><code class="docutils literal notranslate"><span class="pre">LocalLanguageModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.language_models.html#module-knowledge_algorithms.language_models.prompt_manager">knowledge_algorithms.language_models.prompt_manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.prompt_manager.PromptManager"><code class="docutils literal notranslate"><span class="pre">PromptManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.prompt_manager.PromptManager.add_prompt"><code class="docutils literal notranslate"><span class="pre">PromptManager.add_prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.prompt_manager.PromptManager.edit_prompt"><code class="docutils literal notranslate"><span class="pre">PromptManager.edit_prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="knowledge_algorithms.language_models.html#knowledge_algorithms.language_models.prompt_manager.PromptManager.get_prompt"><code class="docutils literal notranslate"><span class="pre">PromptManager.get_prompt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="knowledge_algorithms.language_models.html#module-knowledge_algorithms.language_models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-knowledge_algorithms.base">
+<span id="knowledge-algorithms-base-module"></span><h2>knowledge_algorithms.base module<a class="headerlink" href="#module-knowledge_algorithms.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.base.AlgorithmInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.base.</span></span><span class="sig-name descname"><span class="pre">AlgorithmInterface</span></span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.base.AlgorithmInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.base.AlgorithmInterface.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.base.AlgorithmInterface.load_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.base.AlgorithmInterface.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.base.AlgorithmInterface.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.base.AlgorithmInterface.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.base.AlgorithmInterface.save_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.base.AlgorithmInterface.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.base.AlgorithmInterface.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="knowledge-algorithms-setup-module">
+<h2>knowledge_algorithms.setup module<a class="headerlink" href="#knowledge-algorithms-setup-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-knowledge_algorithms.tree_models">
+<span id="knowledge-algorithms-tree-models-module"></span><h2>knowledge_algorithms.tree_models module<a class="headerlink" href="#module-knowledge_algorithms.tree_models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.tree_models.LightGBM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.tree_models.</span></span><span class="sig-name descname"><span class="pre">LightGBM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.tree_models.LightGBM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface" title="knowledge_algorithms.base.AlgorithmInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.tree_models.LightGBM.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.tree_models.LightGBM.load_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.tree_models.LightGBM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.tree_models.LightGBM.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.tree_models.LightGBM.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.tree_models.LightGBM.save_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.tree_models.LightGBM.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.tree_models.LightGBM.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-knowledge_algorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-knowledge_algorithms" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.APILanguageModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">APILanguageModel</span></span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/models.html#APILanguageModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.APILanguageModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface" title="knowledge_algorithms.base.AlgorithmInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.AlgorithmInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">AlgorithmInterface</span></span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.AlgorithmInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.AlgorithmInterface.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.AlgorithmInterface.load_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.AlgorithmInterface.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.AlgorithmInterface.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.AlgorithmInterface.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.AlgorithmInterface.save_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.AlgorithmInterface.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/base.html#AlgorithmInterface.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.AlgorithmInterface.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.LightGBM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">LightGBM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LightGBM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface" title="knowledge_algorithms.base.AlgorithmInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.LightGBM.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LightGBM.load_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.LightGBM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LightGBM.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.LightGBM.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LightGBM.save_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.LightGBM.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/tree_models.html#LightGBM.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LightGBM.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.LocalLanguageModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">LocalLanguageModel</span></span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/models.html#LocalLanguageModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.LocalLanguageModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface" title="knowledge_algorithms.base.AlgorithmInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">Neo4jAPI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.close" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.decode">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_tensor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode the encoded string encoding. The decoded output is either a list of floats or a 1d tensor with dim=768</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enc</strong> (<em>str</em>) – Encoded string</p></li>
+<li><p><strong>to_tensor</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether output the pytorch tensor, defaults to False</p></li>
+<li><p><strong>map_none</strong> (<em>float</em><em>, </em><em>optional</em>) – the none value would be converted to this-value-fulling tensor/list defaults to 0.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>either a list of floats or a 1d tensor</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>either a list of floats or a 1d tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.decode_col">
+<span class="sig-name descname"><span class="pre">decode_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'enc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.decode_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.decode_col" title="Link to this definition"></a></dt>
+<dd><p>Decode the colomn of the dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to be decoded in place</p></li>
+<li><p><strong>col</strong> (<em>str</em><em>, </em><em>optional</em>) – the column to be decoded, defaults to “enc”</p></li>
+<li><p><strong>map_none</strong> (<em>int</em><em>, </em><em>optional</em>) – the none value would be converted to this value, defaults to 0 (under development)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>decoded tensor</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.fetch_data">
+<span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.fetch_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.fetch_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.load_edge">
+<span class="sig-name descname"><span class="pre">load_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_index_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_index_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.load_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.load_edge" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.load_hetero_graph_dataset">
+<span class="sig-name descname"><span class="pre">load_hetero_graph_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">HeteroData</span></span></span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.load_hetero_graph_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.load_hetero_graph_dataset" title="Link to this definition"></a></dt>
+<dd><p>load the graph dataset containing labels in node_labels</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.Neo4jAPI.load_node">
+<span class="sig-name descname"><span class="pre">load_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/knowledge_graph/neo4j.html#Neo4jAPI.load_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.Neo4jAPI.load_node" title="Link to this definition"></a></dt>
+<dd><p>_summary_</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cypher</strong> (<em>string</em>) – input cypher to query nodes</p></li>
+<li><p><strong>index_col</strong> (<em>string</em>) – index_columns in the returned dataframe</p></li>
+<li><p><strong>encoders</strong> (<em>string</em><em>, </em><em>optional</em>) – name or directory path for sentence encoder, defaults to None. If none, would use the default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>x (the decoded (None, 768) tensor), mapping (the name-to-index dict)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor, dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.PromptManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">PromptManager</span></span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/prompt_manager.html#PromptManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PromptManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PromptManager.add_prompt">
+<span class="sig-name descname"><span class="pre">add_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/prompt_manager.html#PromptManager.add_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PromptManager.add_prompt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PromptManager.edit_prompt">
+<span class="sig-name descname"><span class="pre">edit_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_prompt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/prompt_manager.html#PromptManager.edit_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PromptManager.edit_prompt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PromptManager.get_prompt">
+<span class="sig-name descname"><span class="pre">get_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/language_models/prompt_manager.html#PromptManager.get_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PromptManager.get_prompt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="knowledge_algorithms.PyTorchAlgorithm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">knowledge_algorithms.</span></span><span class="sig-name descname"><span class="pre">PyTorchAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/deep_learning/pytorch.html#PyTorchAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PyTorchAlgorithm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#knowledge_algorithms.base.AlgorithmInterface" title="knowledge_algorithms.base.AlgorithmInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AlgorithmInterface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PyTorchAlgorithm.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/deep_learning/pytorch.html#PyTorchAlgorithm.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PyTorchAlgorithm.load_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PyTorchAlgorithm.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/deep_learning/pytorch.html#PyTorchAlgorithm.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PyTorchAlgorithm.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PyTorchAlgorithm.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/deep_learning/pytorch.html#PyTorchAlgorithm.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PyTorchAlgorithm.save_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="knowledge_algorithms.PyTorchAlgorithm.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/knowledge_algorithms/deep_learning/pytorch.html#PyTorchAlgorithm.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#knowledge_algorithms.PyTorchAlgorithm.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="KnowledgeAlgorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="knowledge_algorithms.deep_learning.html" class="btn btn-neutral float-right" title="knowledge_algorithms.deep_learning package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ywenxi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

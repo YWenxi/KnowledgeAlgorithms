@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>knowledge_algorithms.knowledge_graph.neo4j &#8212; RecSysAlgo 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for knowledge_algorithms.knowledge_graph.neo4j</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">neo4j</span> <span class="kn">import</span> <span class="n">GraphDatabase</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">HeteroData</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">binascii</span> <span class="kn">import</span> <span class="n">Error</span>
+
+<div class="viewcode-block" id="Neo4jAPI">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI">[docs]</a>
+<span class="k">class</span> <span class="nc">Neo4jAPI</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="c1"># initialize the connection to neo4j database</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">GraphDatabase</span><span class="o">.</span><span class="n">driver</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Neo4jAPI.close">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Neo4jAPI.fetch_data">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.fetch_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Neo4jAPI.load_node">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.load_node">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">index_col</span><span class="p">,</span> <span class="n">encoders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">        :param cypher: input cypher to query nodes</span>
+<span class="sd">        :type cypher: string</span>
+<span class="sd">        :param index_col: index_columns in the returned dataframe</span>
+<span class="sd">        :type index_col: string</span>
+<span class="sd">        :param encoders: name or directory path for sentence encoder, defaults to None. If none, would use the default.</span>
+<span class="sd">        :type encoders: string, optional</span>
+<span class="sd">        :return: x (the decoded (None, 768) tensor), mapping (the name-to-index dict)</span>
+<span class="sd">        :rtype: torch.Tensor, dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Execute the cypher query and retrieve data from Neo4j</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">cypher</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">index_col</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="c1"># Define node mapping</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">())}</span>
+        
+        <span class="c1"># Define node features</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">encoders</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">encoder</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># if each node is pre-encoded with a property `enc` we get this enc and convert it to tensor</span>
+            <span class="k">assert</span> <span class="s2">&quot;enc&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_col</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">mapping</span></div>
+
+    
+<div class="viewcode-block" id="Neo4jAPI.decode">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.decode">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">enc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_tensor</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">map_none</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode the encoded string encoding. The decoded output is either a list of floats or a 1d tensor with dim=768</span>
+
+<span class="sd">        :param enc: Encoded string</span>
+<span class="sd">        :type enc: str</span>
+<span class="sd">        :param to_tensor: whether output the pytorch tensor, defaults to False</span>
+<span class="sd">        :type to_tensor: bool, optional</span>
+<span class="sd">        :param map_none: the none value would be converted to this-value-fulling tensor/list defaults to 0.0</span>
+<span class="sd">        :type map_none: float, optional</span>
+<span class="sd">        :return: either a list of floats or a 1d tensor</span>
+<span class="sd">        :rtype: either a list of floats or a 1d tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">enc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">map_none</span><span class="p">]</span> <span class="o">*</span> <span class="mi">768</span>
+        <span class="c1"># Base64 decode</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">b64_decoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">enc</span><span class="p">)</span>
+            <span class="c1"># Unpickle</span>
+            <span class="n">tensor</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">b64_decoded</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Error</span><span class="p">:</span>
+            <span class="c1"># there is a node.enc = &#39;xx&#39;!!!</span>
+            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_none</span><span class="p">]</span> <span class="o">*</span> <span class="mi">768</span>
+            
+        <span class="k">if</span> <span class="n">to_tensor</span><span class="p">:</span>
+            <span class="c1"># Convert list to tensor (torch array)</span>
+            <span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tensor</span></div>
+
+    
+<div class="viewcode-block" id="Neo4jAPI.decode_col">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.decode_col">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_col</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;enc&quot;</span><span class="p">,</span> <span class="n">map_none</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode the colomn of the dataframe</span>
+
+<span class="sd">        :param df: dataframe to be decoded in place</span>
+<span class="sd">        :type df: pd.DataFrame</span>
+<span class="sd">        :param col: the column to be decoded, defaults to &quot;enc&quot;</span>
+<span class="sd">        :type col: str, optional</span>
+<span class="sd">        :param map_none: the none value would be converted to this value, defaults to 0 (under development)</span>
+<span class="sd">        :type map_none: int, optional</span>
+<span class="sd">        :return: decoded tensor</span>
+<span class="sd">        :rtype: pd.DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_tensor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">result_tensor</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result_tensor</span></div>
+
+    
+
+<div class="viewcode-block" id="Neo4jAPI.load_edge">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.load_edge">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_index_col</span><span class="p">,</span> <span class="n">src_mapping</span><span class="p">,</span> <span class="n">dst_index_col</span><span class="p">,</span> <span class="n">dst_mapping</span><span class="p">,</span>
+                  <span class="n">encoders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="c1"># get cypher</span>
+        <span class="n">cypher</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        MATCH (head:</span><span class="si">{h}</span><span class="s2">)-[r]-&gt;(tail:</span><span class="si">{t}</span><span class="s2">) </span>
+<span class="s2">        RETURN head.name as </span><span class="si">{h}</span><span class="s2">, r.name as rname, tail.name as </span><span class="si">{t}</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format_map</span><span class="p">({</span><span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="n">src_index_col</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="n">dst_index_col</span><span class="p">})</span>
+        
+        <span class="c1"># Execute the cypher query and retrieve data from Neo4j</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">cypher</span><span class="p">)</span>
+        
+        <span class="c1"># Define edge index</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_mapping</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">src_index_col</span><span class="p">]]</span>
+        <span class="n">dst</span> <span class="o">=</span> <span class="p">[</span><span class="n">dst_mapping</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">dst_index_col</span><span class="p">]]</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">])</span>
+        
+        <span class="c1"># Define edge features</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">encoders</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edge_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">encoder</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">edge_attrs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># try to get the relation name if such a relation exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;rname&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">rname</span></div>
+
+    
+<div class="viewcode-block" id="Neo4jAPI.load_hetero_graph_dataset">
+<a class="viewcode-back" href="../../../knowledge_algorithms.knowledge_graph.html#knowledge_algorithms.Neo4jAPI.load_hetero_graph_dataset">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_hetero_graph_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeteroData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; load the graph dataset containing labels in node_labels </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># init the data object</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">HeteroData</span><span class="p">()</span>
+
+        <span class="c1"># load the nodes</span>
+        <span class="n">node_query_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            match (n:</span><span class="si">{}</span><span class="s2">) </span>
+<span class="s2">            return </span>
+<span class="s2">                n.name as </span><span class="si">{}</span><span class="s2">, </span>
+<span class="s2">                n.enc as enc</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        
+        <span class="n">node_xs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">node_mappings</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">node_label</span> <span class="ow">in</span> <span class="n">node_labels</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading node:</span><span class="si">{</span><span class="n">node_label</span><span class="si">}</span><span class="s2"> ...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">node_query_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node_label</span><span class="p">,</span> <span class="n">node_label</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_node</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">node_xs</span><span class="p">[</span><span class="n">node_label</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">node_mappings</span><span class="p">[</span><span class="n">node_label</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapping</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2"> nodes loaded.&quot;</span><span class="p">)</span>
+            
+            <span class="n">data</span><span class="p">[</span><span class="n">node_label</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">if</span> <span class="n">include_mapping</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">node_label</span><span class="p">][</span><span class="s2">&quot;mapping&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapping</span>
+
+            
+        <span class="c1"># load the edges</span>
+        <span class="n">ht_tuples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">node_labels</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">node_labels</span> <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="n">t</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ht_tuples</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading relation (</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">)--&gt;(</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">) ...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">relation_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            MATCH (head:</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">)-[r]-&gt;(tail:</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">) </span>
+<span class="s2">            RETURN head.name as </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">, r.name as rname, tail.name as </span><span class="si">{</span><span class="n">t</span><span class="si">}</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            
+            <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_label</span><span class="p">,</span> <span class="n">rname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_edge</span><span class="p">(</span>
+                <span class="n">src_index_col</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
+                <span class="n">src_mapping</span><span class="o">=</span><span class="n">node_mappings</span><span class="p">[</span><span class="n">h</span><span class="p">],</span>
+                <span class="n">dst_index_col</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                <span class="n">dst_mapping</span><span class="o">=</span><span class="n">node_mappings</span><span class="p">[</span><span class="n">t</span><span class="p">],</span>
+            <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">rname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:6d}</span><span class="s2"> loaded.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                <span class="k">continue</span>
+            
+            <span class="n">data</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">rname</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span>  <span class="c1"># [2, num_edges]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">rname</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">num_edges</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2"> loaded.&quot;</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">RecSysAlgo</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">KnowledgeAlgorithms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, ywenxi.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
