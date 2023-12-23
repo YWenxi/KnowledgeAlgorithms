@@ -32,5 +32,5 @@ train:
   k_to_hit: 10
 
 save:
-  model: "/root/KnowledgeAlgorithms/checkpoints/model.pt"
-  data: "/root/KnowledgeAlgorithms/checkpoints/dataset.pt"
+  # model: "/root/KnowledgeAlgorithms/checkpoints/model.pt"
+  # data: "/root/KnowledgeAlgorithms/checkpoints/dataset.pt"

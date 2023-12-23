@@ -1,6 +1,7 @@
 import yaml
 import json
 import random
+import pandas as pd
 import torch
 import torch.nn.functional as F
 
@@ -15,7 +16,7 @@ from torch_geometric.utils import degree
 
 import knowledge_algorithms.deep_learning.pytorch
 from knowledge_algorithms.knowledge_graph.neo4j import Neo4jAPI
-from knowledge_algorithms.knowledge_graph.processors import SequenceEncoder, IdentityEncoder
+from knowledge_algorithms.knowledge_graph.processors import SequenceEncoder
 
 from typing import Union
 
@@ -152,6 +153,19 @@ def load_configs(configs: Union[dict, str], check_keys: list = None):
         for key in check_keys:
             assert configs[key]
     return configs
+
+
+def save_configs(configs: dict, file_path: str):
+    """
+    Save the configuration to a YAML file.
+
+    :param configs: The configuration to save.
+    :type configs: dict
+    :param file_path: The file path where the configuration will be saved.
+    :type file_path: str
+    """
+    with open(file_path, "w") as f:
+        yaml.safe_dump(configs, f, default_flow_style=False)
 
 
 def transform_hetero_data_for_rec_sys(data, random_data_split=True, 
@@ -394,24 +408,40 @@ def train(model: torch.nn.Module, train_data: HeteroData, val_data: HeteroData =
                 print(f"Epoch [{epoch+1:03d}/{num_epochs}], Loss: {loss.item()}")
 
 
-def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None):
+def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None, save=True):
     
     # load configs
+    if isinstance(configs, str):
+        configs_file = configs
+    elif isinstance(configs, dict):
+        configs_file = "./configs.yaml"
     configs = load_configs(configs, check_keys=["neo4j"])
 
     # connect to neo4j database
     db = Neo4jAPI(configs["neo4j"]["url"], configs["neo4j"]["user"], configs["neo4j"]["password"])
+    print("Connected to Neo4j Database.")
 
     # get the Hetero Dataset
     if data is None:
         data: HeteroData = db.load_hetero_graph_dataset(configs["neo4j"]["labels"])
     data = ToUndirected()(data)
-    configs["data"] = data.metadata
 
     train_data, val_data, test_data = transform_hetero_data_for_rec_sys(data, **configs["dataTransform"])
 
     model = HeteroGNN(data = data, **configs["graphNeuralNetwork"])
     train(model, train_data, val_data, target_edge_type=eval(configs["targetEdgeType"]), **configs["train"])
+    
+    if save:
+        if not isinstance(save, str):
+            save = "./checkpoints"
+        save = Path(save)
+        save.mkdir() if not save.is_dir() else None
+        configs['save'] = {
+            'model': str(save_model(model, save)),
+            'data': str(save_dataset(data, save))
+        }
+        save_configs(configs=configs, file_path=configs_file)
+        
     
     return model, data
 
@@ -419,7 +449,7 @@ def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None):
 def save_model(model: torch.nn.Module, path="./"):
     path = Path(path)
     if path.is_dir():
-        path /= "dataset.pt"
+        path /= "model.pt"
     torch.save(model.to("cpu").state_dict(), path)
     return path.absolute()
 
@@ -449,7 +479,7 @@ def load_dataset(path: str):
     # Load the dictionary and convert it back to HeteroData
     dataset_dict = torch.load(path)
     dataset = HeteroData().from_dict(dataset_dict)
-
+    
     return dataset
 
 
@@ -603,8 +633,21 @@ def similarity_compute(input_request: str, configs: Union[str, dict], topk=5, da
                 date().year - date(e.`出生日期`).year AS `年龄`,
                 COLLECT(t.name) AS `技术栈`
         """
+        df = db.fetch_data(query)
+        if df.empty:
+            # this employee has no links to techStack
+            query = f"""
+                MATCH (e:employee)
+                WHERE e.name = "{v}"
+                RETURN e.name AS `工号`, 
+                    e.`最高学历` AS `学历`, 
+                    e.`首次工作时间` AS `首次工作时间`,
+                    date().year - date(e.`出生日期`).year AS `年龄`,
+            """
+            df = db.fetch_data(query)
         dfs.append(db.fetch_data(query))
-    return dfs, outs
+    df = pd.concat(dfs, ignore_index=True)
+    return df, outs
 
 
 if __name__ == "__main__":
