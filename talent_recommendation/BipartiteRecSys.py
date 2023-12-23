@@ -151,7 +151,7 @@ def load_configs(configs: Union[dict, str], check_keys: list = None):
     # check if the configuration contains needed keys
     if check_keys is not None:
         for key in check_keys:
-            assert configs[key]
+            assert key in configs
     return configs
 
 
@@ -882,7 +882,7 @@ def similarity_compute(
     [('John Smith', 0.9876), ('Sarah Brown', 0.8765), ('Michael Johnson', 0.7654)]
     """
     # load configs
-    configs = load_configs(configs, check_keys=["neo4j", "save"])
+    configs = load_configs(configs, check_keys=["neo4j"])
 
     
     # connect to neo4j
@@ -892,7 +892,7 @@ def similarity_compute(
     if isinstance(data, Union[str, Path]):
         data = load_dataset(data)
     if data is None:
-        if "data" in configs['save']:
+        if "save" in configs and isinstance(configs['save'], dict) and "data" in configs['save']:
             print(f"Found HeteroData at {configs['save']['data']}")
             data = load_dataset(configs['save']["data"])
         else:
@@ -903,7 +903,11 @@ def similarity_compute(
     
     # load model
     if model is None:
-        model = load_model(HeteroGNN(data=data, **configs['graphNeuralNetwork']), path=configs['save']['model'])
+        try:
+            model = load_model(HeteroGNN(data=data, **configs['graphNeuralNetwork']), path=configs['save']['model'])
+        except TypeError:
+            print("No model could be found. Now we are going to train a model.")
+            model, data = rec_sys_train(configs, data)
     
     # load sentence encoder
     sentence_encoder = SequenceEncoder(configs["sentence_encoder"])
@@ -932,7 +936,7 @@ def similarity_compute(
                 RETURN e.name AS `工号`, 
                     e.`最高学历` AS `学历`, 
                     e.`首次工作时间` AS `首次工作时间`,
-                    date().year - date(e.`出生日期`).year AS `年龄`,
+                    date().year - date(e.`出生日期`).year AS `年龄`
             """
             df = db.fetch_data(query)
         dfs.append(db.fetch_data(query))

@@ -1,3 +1,44 @@
+data:
+- - employee
+  - project
+  - position
+  - techStack
+- - - employee
+    - workedIn
+    - project
+  - - employee
+    - workedAs
+    - position
+  - - employee
+    - hasTechStack
+    - techStack
+  - - project
+    - needPosition
+    - position
+  - - project
+    - needTechstack
+    - techStack
+  - - position
+    - needTechstack
+    - techStack
+  - - project
+    - rev_workedIn
+    - employee
+  - - position
+    - rev_workedAs
+    - employee
+  - - techStack
+    - rev_hasTechStack
+    - employee
+  - - position
+    - rev_needPosition
+    - project
+  - - techStack
+    - rev_needTechstack
+    - project
+  - - techStack
+    - rev_needTechstack
+    - position
 dataTransform:
   edge_types:
   - - employee
