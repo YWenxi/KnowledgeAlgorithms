@@ -3,3 +3,6 @@
 **.egg-info
 **models
 *.vscode
+**/.ipynb_checkpoints
+**.ipynb
+checkpoints

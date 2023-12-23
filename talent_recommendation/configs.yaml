@@ -2,8 +2,35 @@ neo4j:
   # url: 'neo4j+s://5afd5500.databases.neo4j.io'
   # user: 'neo4j'
   # password: 'JDs9Ns8a1eP4Tf4iACTuudysX9E3Vy1AqUYkh0ex56w'
-  url: bolt://7.tcp.cpolar.top:12706
+  url: "bolt://localhost:7687"
   user: 'neo4j'
   password: 'tanzhezhineng'
-sentence_encoder:
-  dir: "/root/KnowledgeAlgorithms/models/sbert-base-chinese-nli"
+  # use nodes with following labels
+  labels: ["employee", "project", "position", "techStack"]
+
+sentence_encoder: "/root/KnowledgeAlgorithms/models/sbert-base-chinese-nli"
+
+graphNeuralNetwork:
+  input_channels: 768  # Feature size of your nodes
+  hidden_channels: 128 # Example size, adjust as needed
+  out_channels: 64     # Example size, adjust as needed
+
+targetEdgeType: ("position", "rev_workedAs", "employee")
+
+dataTransform:
+  random_data_split: True 
+  num_val: 0.1
+  num_test: 0.0
+  is_undirected: True
+  neg_sampling_ratio: 0.0
+  edge_types: [["employee", "workedAs", "position"]]
+  rev_edge_types: [["position", "rev_workedAs", "employee"]]
+
+train:
+  optimizer: "Adam"
+  num_epochs: 50
+  k_to_hit: 10
+
+save:
+  # model: "/root/KnowledgeAlgorithms/checkpoints/model.pt"
+  # data: "/root/KnowledgeAlgorithms/checkpoints/dataset.pt"

@@ -1,0 +1,36 @@
+dataTransform:
+  edge_types:
+  - - employee
+    - workedAs
+    - position
+  is_undirected: true
+  neg_sampling_ratio: 0.0
+  num_test: 0.0
+  num_val: 0.1
+  random_data_split: true
+  rev_edge_types:
+  - - position
+    - rev_workedAs
+    - employee
+graphNeuralNetwork:
+  hidden_channels: 128
+  input_channels: 768
+  out_channels: 64
+neo4j:
+  labels:
+  - employee
+  - project
+  - position
+  - techStack
+  password: tanzhezhineng
+  url: bolt://localhost:7687
+  user: neo4j
+save:
+  data: /root/KnowledgeAlgorithms/checkpoints/dataset.pt
+  model: /root/KnowledgeAlgorithms/checkpoints/model.pt
+sentence_encoder: /root/KnowledgeAlgorithms/models/sbert-base-chinese-nli
+targetEdgeType: ("position", "rev_workedAs", "employee")
+train:
+  k_to_hit: 10
+  num_epochs: 50
+  optimizer: Adam
