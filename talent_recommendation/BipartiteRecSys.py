@@ -594,6 +594,7 @@ def similarity_compute(input_request: str, configs: Union[str, dict], topk=5, da
                        verbose=1):
     # load configs
     configs = load_configs(configs, check_keys=["neo4j", "save"])
+
     
     # connect to neo4j
     db = Neo4jAPI(configs["neo4j"]["url"], configs["neo4j"]["user"], configs["neo4j"]["password"])
