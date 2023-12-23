@@ -4,5 +4,5 @@
 **models
 *.vscode
 **/.ipynb_checkpoints
-**.ipynb
+# **.ipynb
 checkpoints
