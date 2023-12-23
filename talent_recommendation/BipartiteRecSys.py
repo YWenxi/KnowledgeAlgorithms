@@ -18,7 +18,7 @@ import knowledge_algorithms.deep_learning.pytorch
 from knowledge_algorithms.knowledge_graph.neo4j import Neo4jAPI
 from knowledge_algorithms.knowledge_graph.processors import SequenceEncoder
 
-from typing import Union
+from typing import Union, Dict, Any, List, Tuple
 
 from pathlib import Path
 
@@ -409,6 +409,28 @@ def train(model: torch.nn.Module, train_data: HeteroData, val_data: HeteroData =
 
 
 def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None, save=True):
+    """
+    Train a recommendation system model using heterogeneous graph data.
+
+    This function trains a recommendation system model using heterogeneous graph data
+    and saves the trained model and data configurations if specified.
+
+    :param Union[dict, str] configs: Either a dictionary containing configuration parameters
+        or a string specifying the path to a configuration file (in YAML format).
+    :param HeteroData data: The heterogeneous graph data to be used for training.
+    :param string device: The device to use for training (e.g., "cpu" or "cuda").
+    :param bool save: Whether to save the trained model and data configurations.
+    
+    :return: A trained recommendation system model and the input heterogeneous graph data.
+    :rtype: Tuple[HeteroGNN, HeteroData]
+
+    Example:
+    >>> configs = "./my_configs.yaml"
+    >>> model, data = rec_sys_train(configs)
+    
+    Example:
+    >>> model, data = rec_sys_train({"neo4j": {"url": "http://localhost:7474", "user": "user", "password": "password"}}, data)
+    """
     
     # load configs
     if isinstance(configs, str):
@@ -446,7 +468,32 @@ def rec_sys_train(configs: Union[dict, str], data:HeteroData=None, device=None, 
     return model, data
 
 
-def save_model(model: torch.nn.Module, path="./"):
+def save_model(model: HeteroGNN, path="./"):
+    """
+    Save a PyTorch model to a specified file path.
+
+    This function saves a PyTorch model to a specified file path. If the path is a directory,
+    the model will be saved as "model.pt" in that directory.
+
+    :param HeteroGNN model: The PyTorch model to be saved.
+    :param Union[str, Path] path: The file path where the model will be saved.
+        If a directory is provided, the model will be saved as "model.pt" in that directory.
+    
+    :return: The absolute file path where the model was saved.
+    :rtype: Path
+
+    Example:
+    >>> model = HeteroGNN(...)
+    >>> saved_path = save_model(model, "./models")
+    >>> print(saved_path)
+    '/path/to/models/model.pt'
+
+    Example:
+    >>> model = HeteroGNN(...)
+    >>> saved_path = save_model(model, "./model.pth")
+    >>> print(saved_path)
+    '/path/to/model.pth'
+    """
     path = Path(path)
     if path.is_dir():
         path /= "model.pt"
@@ -455,12 +502,59 @@ def save_model(model: torch.nn.Module, path="./"):
 
 
 def load_model(model: HeteroGNN, path: str):
+    """
+    Load a PyTorch model from a specified file path and set it to evaluation mode.
+
+    This function loads a PyTorch model from a specified file path and sets it to evaluation mode.
+    The model should have the same architecture as the one used during training.
+
+    :param HeteroGNN model: The PyTorch model to be loaded.
+    :param str path: The file path from which to load the model.
+    
+    :return: The loaded PyTorch model set to evaluation mode.
+    :rtype: HeteroGNN
+
+    Example:
+    >>> loaded_model = load_model(MyModel(), "./models/model.pt")
+    >>> loaded_model.eval()
+    <HeteroGNN ...>
+
+    Example:
+    >>> loaded_model = load_model(MyModel(), "./saved_models/model.pth")
+    >>> loaded_model.eval()
+    <HeteroGNN ...>
+    """
     model.load_state_dict(torch.load(Path(path)))
     model.eval()  # Set the model to evaluation mode
     return model
 
 
 def save_dataset(dataset: HeteroData, path:str="./"):
+    """
+    Save a HeteroData object to a specified file path.
+
+    This function saves a HeteroData object to a specified file path. If the path is a directory,
+    the dataset will be saved as "dataset.pt" in that directory.
+
+    :param HeteroData dataset: The HeteroData object to be saved.
+    :param Union[str, Path] path: The file path where the dataset will be saved.
+        If a directory is provided, the dataset will be saved as "dataset.pt" in that directory.
+    
+    :return: The absolute file path where the dataset was saved.
+    :rtype: Path
+
+    Example:
+    >>> dataset = MyHeteroData()
+    >>> saved_path = save_dataset(dataset, "./datasets")
+    >>> print(saved_path)
+    '/path/to/datasets/dataset.pt'
+
+    Example:
+    >>> dataset = MyHeteroData()
+    >>> saved_path = save_dataset(dataset, "./data/datafile.pth")
+    >>> print(saved_path)
+    '/path/to/data/datafile.pth'
+    """
     path = Path(path)
     if path.is_dir():
         path /= "dataset.pt"
@@ -471,7 +565,28 @@ def save_dataset(dataset: HeteroData, path:str="./"):
     return path.absolute()
 
 
-def load_dataset(path: str):
+def load_dataset(path: Union[str, Path]):
+    """
+    Load a HeteroData object from a specified file path.
+
+    This function loads a HeteroData object from a specified file path. If the path is a directory,
+    the dataset will be loaded from "dataset.pt" in that directory.
+
+    :param Union[str, Path] path: The file path from which to load the dataset.
+    
+    :return: The loaded HeteroData object.
+    :rtype: HeteroData
+
+    Example:
+    >>> loaded_dataset = load_dataset("./datasets")
+    >>> print(loaded_dataset)
+    <HeteroData ...>
+
+    Example:
+    >>> loaded_dataset = load_dataset("./data/datafile.pth")
+    >>> print(loaded_dataset)
+    <HeteroData ...>
+    """
     path = Path(path)
     if path.is_dir():
         path /= "dataset.pt"
@@ -486,6 +601,33 @@ def load_dataset(path: str):
 ## for recommendation and similarity computation
 
 def json_to_feature_vector(json_data: dict, sentence_encoder=None):
+    """
+    Convert JSON data to a feature vector using a sentence encoder.
+
+    This function takes a JSON dictionary as input and converts it into a feature vector
+    using a specified sentence encoder model.
+
+    :param dict json_data: The JSON data to be converted to a feature vector.
+    :param Union[SequenceEncoder, str] sentence_encoder: An instance of a sentence encoder model,
+        or the name/directory path of a pre-trained sentence encoder model to be used for encoding.
+    
+    :return: The feature vector representation of the JSON data.
+    :rtype: torch.Tensor
+
+    Example:
+    >>> json_data = {"text": "This is a sample text."}
+    >>> encoder = SequenceEncoder("bert-base-uncased")
+    >>> feature_vector = json_to_feature_vector(json_data, encoder)
+    >>> print(feature_vector)
+    tensor([[0.1234, 0.5678, ..., 0.9876]])
+
+    Example:
+    >>> json_data = {"text": "Another example text."}
+    >>> feature_vector = json_to_feature_vector(json_data, "bert-base-uncased")
+    >>> print(feature_vector)
+    tensor([[0.5678, 0.4321, ..., 0.8765]])
+    """
+    
     # Example function to convert JSON to a feature vector
     # This should be aligned with how the original features were generated
     if not isinstance(sentence_encoder, SequenceEncoder):
@@ -501,6 +643,39 @@ def json_to_feature_vector(json_data: dict, sentence_encoder=None):
 
 
 def add_new_position_node(hetero_data, json_data, sentence_encoder=None, techstack_mapping:dict=None, device='cpu'):
+    """
+    Add a new 'position' node with edges to 'techStack' nodes based on JSON data.
+
+    This function adds a new 'position' node to the heterogeneous graph data and
+    creates edges to 'techStack' nodes based on the information provided in the JSON data.
+
+    :param hetero_data: The heterogeneous graph data to which the new node and edges will be added.
+    :param json_data: JSON data containing information about the new 'position' node
+        and its related 'techStack' nodes.
+    :param sentence_encoder: An instance of a sentence encoder model or the name/directory path
+        of a pre-trained sentence encoder model to be used for encoding descriptions.
+    :param techstack_mapping: A dictionary mapping tech stack names to their corresponding indices.
+    :param device: The device (e.g., 'cpu' or 'cuda') to be used for tensor operations.
+    
+    :return: A tuple containing the updated heterogeneous graph data and the index of the new 'position' node.
+    :rtype: Tuple[YourHeteroData, int]
+
+    Example:
+    >>> json_data = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
+    >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, sentence_encoder, techstack_mapping, 'cuda')
+    >>> print(position_idx)
+    42
+    >>> print(hetero_data)
+    <YourHeteroData ...>
+
+    Example:
+    >>> json_data = {"职位": "Data Scientist", "技术栈": ["Python", "R"]}
+    >>> hetero_data, position_idx = add_new_position_node(hetero_data, json_data, "bert-base-uncased", techstack_mapping, 'cpu')
+    >>> print(position_idx)
+    43
+    >>> print(hetero_data)
+    <YourHeteroData ...>
+    """
     
     hetero_data.to(device)
     
@@ -538,7 +713,42 @@ def add_new_position_node(hetero_data, json_data, sentence_encoder=None, techsta
     return hetero_data, new_position_idx
 
 
-def score_and_rank_employees(model, hetero_data, new_position_idx, device):
+def score_and_rank_employees(model, hetero_data, new_position_idx, device='cpu'):
+    """
+    Score and rank employees based on compatibility with a new 'position' node.
+
+    This function scores and ranks employees based on their compatibility with a new 'position' node
+    that was added to the heterogeneous graph. Compatibility is calculated using embeddings obtained
+    from a trained heterogeneous graph neural network model.
+
+    :param YourHeteroGNN model: The trained heterogeneous graph neural network model.
+    :param YourHeteroData hetero_data: The heterogeneous graph data containing employees and the new 'position'.
+    :param int new_position_idx: The index of the new 'position' node in the graph.
+    :param str device: The device (e.g., 'cpu' or 'cuda') to be used for tensor operations.
+    
+    :return: Two tensors containing sorted indices and corresponding scores of employees.
+    :rtype: Tuple[torch.Tensor, torch.Tensor]
+
+    Example:
+    >>> model = YourHeteroGNN()
+    >>> hetero_data = YourHeteroData()
+    >>> new_position_idx = 42
+    >>> sorted_indices, sorted_scores = score_and_rank_employees(model, hetero_data, new_position_idx, 'cuda')
+    >>> print(sorted_indices)
+    tensor([10, 5, 20, ...])
+    >>> print(sorted_scores)
+    tensor([0.9876, 0.8765, 0.7654, ...])
+
+    Example:
+    >>> model = YourHeteroGNN()
+    >>> hetero_data = YourHeteroData()
+    >>> new_position_idx = 43
+    >>> sorted_indices, sorted_scores = score_and_rank_employees(model, hetero_data, new_position_idx, 'cpu')
+    >>> print(sorted_indices)
+    tensor([15, 12, 30, ...])
+    >>> print(sorted_scores)
+    tensor([0.8765, 0.7654, 0.6543, ...])
+    """
     model.eval()
     hetero_data = hetero_data.to(device)
     with torch.no_grad():
@@ -560,11 +770,55 @@ def score_and_rank_employees(model, hetero_data, new_position_idx, device):
 
 
 def _reverse_mapping(mapping_dict):
-        reversed_dict = {index: name for name, index in mapping_dict.items()}
-        return reversed_dict
+    """
+    Reverse the keys and values of a dictionary.
+
+    This function takes a dictionary as input and returns a new dictionary where
+    the keys and values are reversed.
+
+    :param dict mapping_dict: The dictionary to be reversed.
+    
+    :return: A new dictionary with keys and values reversed.
+    :rtype: dict
+
+    Example:
+    >>> original_dict = {'a': 1, 'b': 2, 'c': 3}
+    >>> reversed_dict = _reverse_mapping(original_dict)
+    >>> print(reversed_dict)
+    {1: 'a', 2: 'b', 3: 'c}
+    """
+    reversed_dict = {index: name for name, index in mapping_dict.items()}
+    return reversed_dict
 
 
 def recommend(json_request, model, data, sentence_encoder=None, topk=5, verbose=1):
+    """
+    Recommend top employees for a new position based on JSON request and model.
+
+    This function recommends the top employees for a new position based on the provided JSON request,
+    a trained recommendation model, and existing data. It calculates compatibility scores for employees
+    and ranks them to provide the top recommendations.
+
+    :param dict json_request: JSON request containing information about the new 'position' node.
+    :param model: The trained recommendation model.
+    :param data: The heterogeneous graph data containing employee and 'position' nodes.
+    :param sentence_encoder: An instance of a sentence encoder model or the name/directory path
+        of a pre-trained sentence encoder model to be used for encoding descriptions.
+    :param int topk: The number of top recommendations to return (default is 5).
+    :param int verbose: Verbosity level (0 for no output, 1 for minimal output).
+    
+    :return: A list of tuples containing recommended employee names and their corresponding scores.
+    :rtype: List[Tuple[str, float]]
+
+    Example:
+    >>> json_request = {"职位": "Software Engineer", "技术栈": ["Python", "JavaScript"]}
+    >>> recommendations = recommend(json_request, model, data, sentence_encoder, topk=3, verbose=1)
+    >>> for employee, score in recommendations:
+    ...     print(f"Employee: {employee}, Score: {score}")
+    Employee: John Smith, Score: 0.9876
+    Employee: Sarah Brown, Score: 0.8765
+    Employee: Michael Johnson, Score: 0.7654
+    """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     new_hetero_data, new_position_idx = add_new_position_node(data, json_request, sentence_encoder, device=device)
@@ -590,8 +844,43 @@ def recommend(json_request, model, data, sentence_encoder=None, topk=5, verbose=
     return outs
 
 
-def similarity_compute(input_request: str, configs: Union[str, dict], topk=5, data=None, model=None, 
-                       verbose=1):
+def similarity_compute(
+    input_request: str,
+    configs: Union[str, Dict[str, Any]],
+    topk: int = 5,
+    data: Union[str, Path, None] = None,
+    model: Any = None,
+    verbose: int = 1
+) -> Tuple[pd.DataFrame, List[Tuple[str, float]]]:
+    """
+    Compute and return employee recommendations based on a similarity input request.
+
+    This function computes employee recommendations based on a similarity input request
+    by utilizing a trained recommendation model, heterogeneous graph data, and a sentence encoder.
+
+    :param str input_request: The input request describing the new 'position' node.
+    :param Union[str, Dict[str, Any]] configs: Configuration information in the form of a dictionary
+        or the path to a configuration file.
+    :param int topk: The number of top recommendations to return (default is 5).
+    :param Union[str, Path, None] data: The path to a saved HeteroData object or None.
+    :param Any model: The trained recommendation model or None.
+    :param int verbose: Verbosity level (0 for no output, 1 for minimal output).
+    
+    :return: A tuple containing a DataFrame with employee information and a list of recommended employees with scores.
+    :rtype: Tuple[pd.DataFrame, List[Tuple[str, float]]]
+
+    Example:
+    >>> input_request = "We are looking for a Python Developer with experience in web development."
+    >>> config_file = "config.yaml"
+    >>> recommendations_df, recommendations = similarity_compute(input_request, config_file, topk=3, data=None, model=None, verbose=1)
+    >>> print(recommendations_df)
+       工号   学历  首次工作时间  年龄   技术栈
+    0  John Smith  Master's Degree   2010  35  ['Python', 'JavaScript']
+    1  Sarah Brown  Bachelor's Degree   2012  31  ['Python', 'JavaScript']
+    2  Michael Johnson  PhD   2009  37  ['Python', 'JavaScript']
+    >>> print(recommendations)
+    [('John Smith', 0.9876), ('Sarah Brown', 0.8765), ('Michael Johnson', 0.7654)]
+    """
     # load configs
     configs = load_configs(configs, check_keys=["neo4j", "save"])
 
@@ -639,7 +928,7 @@ def similarity_compute(input_request: str, configs: Union[str, dict], topk=5, da
             # this employee has no links to techStack
             query = f"""
                 MATCH (e:employee)
-                WHERE e.name = "{v}"
+                WHERE e.name = "{name}"
                 RETURN e.name AS `工号`, 
                     e.`最高学历` AS `学历`, 
                     e.`首次工作时间` AS `首次工作时间`,
@@ -649,9 +938,3 @@ def similarity_compute(input_request: str, configs: Union[str, dict], topk=5, da
         dfs.append(db.fetch_data(query))
     df = pd.concat(dfs, ignore_index=True)
     return df, outs
-
-
-if __name__ == "__main__":
-    
-    # rec_sys_train("./configs.yaml", encoding_model="../models/sbert-base-chinese-nli")
-    print(similarity_compute("", configs="./configs.yaml", topk=3))
